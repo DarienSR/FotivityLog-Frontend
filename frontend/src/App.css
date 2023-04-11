@@ -1,0 +1,134 @@
+:root {
+  --border-color: "2px solid black"
+}
+
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: 'Roboto Slab', serif;
+}
+
+.fotivity-container {
+  margin: 0 auto;
+}
+
+.logo {
+  font-family: 'Tilt Neon', cursive;
+  text-decoration: none;
+  font-size: 2rem;
+  color: black;
+}
+
+/* FORMS */
+.form-container h1 {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+.form-container {
+  margin: 5rem auto;
+  width: 60%;
+  padding: 1rem;
+  /* box-shadow: inset 0px 0px 8px 6px rgba(197, 193, 197, 0.986); */
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-container form {
+  width: 60%;
+  padding: 1rem;
+  margin: 0 auto;
+  text-align: flex-start;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  font-size: 1.4rem;
+}
+
+.form-container input {
+  margin-bottom: 1.2rem;
+  padding: 0.5rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.form-container button {
+  width: 30%;
+  align-self: flex-end;
+  margin-bottom: 1.2rem;
+  padding: 0.5rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  font-size: 1.2rem; 
+  background-color: white;
+  cursor: pointer;
+}
+
+.form-container .form-links {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+/* Sessions */
+
+.sessionList-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.session {
+  background-color: #fdfdfd;
+  min-width: 25.1%;
+  max-width: 25.1%;
+  margin: 1rem 1rem 1rem 3rem;
+  border-top: 0.4rem solid rgb(54, 50, 50);
+  box-shadow: 1px 3px 4px 2px #d6d6d6;
+  min-height: 25vh;
+  padding: 1rem;
+}
+
+.component-nav {
+  display: flex;
+  justify-content: space-around;
+  width: 60%;
+  margin: 2rem auto;
+  align-items: center;
+  padding: 0.4rem;
+  box-shadow: inset 1px 3px 4px 2px #aca6a6;
+}
+
+.component-nav input {
+  padding: 0.5rem;
+  border: 2px solid #aca6a6;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.checkbox-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.checkbox-container input {
+  margin: auto;
+}
+
+.session-active {
+  background-color: #ebebe5be !important;
+}
+
+.react-calendar-heatmap .color-scale-1 { fill: #f894f0; }
+.react-calendar-heatmap .color-scale-2 { fill: #b34fab; }
+.react-calendar-heatmap .color-scale-3 { fill: #8f2586; }
+
+.react-calendar-heatmap .color-scale-4 { fill: #6a0bc2; }
+.react-calendar-heatmap .color-scale-5 { fill: #49088a; }
+.react-calendar-heatmap .color-scale-6 { fill: #1a0b29; }
