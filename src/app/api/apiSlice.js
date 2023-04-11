@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../components/authentication/authSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'fotivitylog-backend-q2u9455i4-dariensr.vercel.app',
+    baseUrl: 'https://fotivitylog-backend-pynz755enq-uc.a.run.app/',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token
