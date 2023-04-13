@@ -26,7 +26,12 @@ const SessionList = () => {
   if(isLoading) 
     content = <p>Loading..</p>
   if(isError) {
-    content = <p className="isError">{error?.data?.message}</p>
+    content = <div className="component-nav">
+    <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
+    <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
+      <input placeholder="Search..." />
+  </div>
+    
   }
   if(isSuccess) {
     const { ids } = sessions
@@ -35,9 +40,9 @@ const SessionList = () => {
     content = (
       <div className="fotivity-container">
         <div className="component-nav">
-        <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
-        <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
-          <input placeholder="Search..." />
+          <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
+          <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
+            <input placeholder="Search..." />
         </div>
         <div className="sessionList-container">
           { sessionMap }

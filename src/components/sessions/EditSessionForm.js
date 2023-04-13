@@ -9,6 +9,10 @@ const EditSessionForm = (props) => {
   const [topic, setTopic] = useState(props.session.topic)
   const [desc, setDescription] = useState(props.session.desc)
   const [location, setLocation] = useState(props.session.location)
+  const [start_time, setStartTime] = useState(props.session.start_time)
+  const [end_time, setEndTime] = useState(props.session.end_time)
+
+
   const [activeSession, setActiveSession] = useState(false);
 
   const [focused, setFocused] = useState(props.session.focused)
@@ -34,6 +38,10 @@ const EditSessionForm = (props) => {
   const onTopicChanged = e => setTopic(e.target.value)
   const onDescriptionChanged = e => setDescription(e.target.value)
   const onLocationChanged = e => setLocation(e.target.value)
+  const onStartTimeChanged = e => setStartTime(e.target.value)
+  const onEndTimeChanged = e => setEndTime(e.target.value)
+
+
 
   const onFocusedChanged = e => setFocused(e.target.checked)
   const onDistractedChanged = e => setDistracted(e.target.checked)
@@ -44,7 +52,7 @@ const EditSessionForm = (props) => {
 
   const onUpdateSessionClicked = async (e) => {
     e.preventDefault()
-    await updateSession({userID, topic, desc, location, id: props.session.id, start_time: props.session.start_time, end_time: props.session.end_time, focused, deep_work, social, distracted  })
+    await updateSession({userID, topic, desc, location, id: props.session.id, start_time, end_time, focused, deep_work, social, distracted  })
     navigate("/log/sessions")
   }
 
@@ -70,9 +78,6 @@ const EditSessionForm = (props) => {
           </div>
 
         }
-
-
-
     </div>
 
 
@@ -101,16 +106,38 @@ const EditSessionForm = (props) => {
                 autoComplete="off"
                 required
             />
-            <label htmlFor="start-time">Location</label>
+            <label htmlFor="location">Location</label>
             <input
                 className="form__input"
                 type="text"
-                id="start"
+                id="location"
                 value={location}
                 onChange={onLocationChanged}
                 autoComplete="off"
                 required
             />
+
+          <label htmlFor="start_time">Start Time</label>
+          <input
+              className="form__input"
+              type="text"
+              id="start_time"
+              value={start_time}
+              onChange={onStartTimeChanged}
+              autoComplete="off"
+              required
+          />
+
+          <label htmlFor="end_time">End Time</label>
+          <input
+              className="form__input"
+              type="text"
+              id="end_time"
+              value={end_time}
+              onChange={onEndTimeChanged}
+              autoComplete="off"
+              required
+          />
 
             <div className="checkbox-container">
                 <label htmlFor="social">Social</label>

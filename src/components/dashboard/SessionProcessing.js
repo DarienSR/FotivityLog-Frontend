@@ -42,8 +42,6 @@ export function ProcessSessionData(data) {
   sessions.totalMinutes = totalMinutes;
   sessions.topicByMinutes = topicByMinutes;
   sessions.locationByMinutes = locationByMinutes;
-  
-  console.log("Returning: ", sessions)
 
   return sessions;
 }

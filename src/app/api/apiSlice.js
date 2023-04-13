@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../components/authentication/authSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://fotivitylog-backend-pynz755enq-uc.a.run.app/',
+    baseUrl: process.env.REACT_APP_URL,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().auth.token

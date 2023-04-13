@@ -36,12 +36,15 @@ const Dashboard = () => {
   let [alertIsVisible, setAlertIsVisible] = useState(false);
   let [alertError, setAlertError] = useState(false)
 
-  let content;
+  let content = <div className="fotivitiy-container">
+    <div style={ styles.dashboardContainer }>
+      <p style={{margin: '5rem auto', fontSize: '2rem'}}>No Sessions Found. Dashboard cannot be generated</p>
+    </div>
+  </div>;
 
 
   if(isSuccess) {
    let sessionData = ProcessSessionData(sessions);
-    
     content = <div className="fotivity-container">
     <div style={ styles.dashboardContainer }>
       <div style={{ ...styles.component, ...styles.large}}>

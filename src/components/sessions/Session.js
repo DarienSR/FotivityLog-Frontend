@@ -5,8 +5,6 @@ import "../../App.css"
 
 import { useGetSessionsByIdQuery } from "./sessionsApiSlice"
 const Session = ({ sessionId }) => {
-
-  console.log(sessionId)
 //  const session = useSelector(state => selectSessionById(state, sessionId))
 
 const {
@@ -26,7 +24,7 @@ const {
     const handleEdit = () => navigate(`/log/sessions/edit/${sessionId}`)
 
     const currentSession = session.end_time === null ? 'session-active session' : 'session'
-    console.log(session)
+  
     return (
         <>
         { session.end_time !== null ? <div className={`${currentSession}`}>
@@ -39,10 +37,10 @@ const {
               <p>{ session.desc === "" ? "No desc." : session.desc }</p>
 
               <div style={styles.booleanContainer}>
-                { session.distracted ? <p style={styles.booleans}>Distracted</p> : null}
-                { session.focused ? <p style={styles.booleans}>Focused</p> : null}
-                { session.deep_work ? <p style={styles.booleans}>Deep Work</p> : null}
-                { session.social ? <p style={styles.booleans}>Social</p> : null}
+                { session.distracted ? <p style={{...styles.booleans, ...styles.distracted}}>Distracted</p> : null}
+                { session.focused ? <p style={{...styles.booleans, ...styles.focused}}>Focused</p> : null}
+                { session.deep_work ? <p style={{...styles.booleans, ...styles.deep_work}}>Deep Work</p> : null}
+                { session.social ? <p style={{...styles.booleans, ...styles.social}}>Social</p> : null}
               </div>
             </div>
       
@@ -54,7 +52,7 @@ const {
           </div> }
         </>
     )
-  } else return <div><p>Error</p></div>
+  } else return null
 
 }
 
@@ -86,12 +84,23 @@ let styles = {
     display: 'flex'
   },
   booleans: {
-    backgroundColor: '#2ee870',
     width: '20%',
     color: 'black',
     padding: '0.2rem',
     textAlign: 'center',
     marginRight: '0.4rem'
+  },
+  distracted: {
+    backgroundColor: "#fff765"
+  },
+  focused: {
+    backgroundColor: "#65ff91"
+  },
+  deep_work: {
+    backgroundColor: "#65fff5"
+  },
+  social: {
+    backgroundColor: '#ff65d3'
   }
 }
 

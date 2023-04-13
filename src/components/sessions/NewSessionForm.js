@@ -20,9 +20,7 @@ const NewSessionForm = ({ users }) => {
  
     let active = false;
     if(data) {
-        console.log(".", data)
         active = data.ids.length >= 1 ? true : false
-        console.log(data.entities[data.ids[0]].start_time)
     }
 
     const [addNewSession, {

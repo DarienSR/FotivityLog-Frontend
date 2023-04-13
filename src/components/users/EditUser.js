@@ -74,9 +74,9 @@ const EditUser = () => {
     <section className="fotivity-container">
     <main className="form-container">
       <p className={errClass}>{error?.data?.message}</p>
-      <form className="form" onSubmit={onSaveUserClicked}>
+      <form className="form">
         <header>
-          <h2>Sign Up</h2>
+          <h2>Edit Profile</h2>
         </header>
 
         <label htmlFor="oldUsername">Username</label>
@@ -119,7 +119,7 @@ const EditUser = () => {
           value={newPassword}
           onChange={onNewPasswordChanged}
           />
-        <button className="form__submit-button">Save</button>
+        <button onClick={onSaveUserClicked} className="form__submit-button">Save</button>
       </form>
     </main>
     </section>

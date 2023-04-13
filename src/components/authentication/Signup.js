@@ -38,7 +38,7 @@ const NewUserForm = () => {
       setUsername('')
       setPassword('')
       setEmail('')
-      navigate('/log/users') 
+      navigate('/log/dashboard') 
     }
   }, [isSuccess, navigate])
 
@@ -50,9 +50,9 @@ const NewUserForm = () => {
 
   const onSaveUserClicked = async (e) => {
       e.preventDefault()
-      if (canSave) {
-          await addNewUser({ username, password, email })
-      }
+    //  if (canSave) {
+      await addNewUser({ username, password, email })
+     // }
   }
 
   const errClass = isError ? "errMsg" : ''

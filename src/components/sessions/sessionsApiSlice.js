@@ -19,7 +19,6 @@ export const sessionsApiSlice = apiSlice.injectEndpoints({
         return response.status === 200 && !result.isError
       },
       transformResponse: responseData => {
-        console.log(responseData)
         // set frontend data from backend mongodb data
         const loadedSessions = responseData.reverse().map(session => {
           session.id = session._id
@@ -39,11 +38,9 @@ export const sessionsApiSlice = apiSlice.injectEndpoints({
     getSessionsById: builder.query({
       query: (id) => ({url: `/sessions/unique/${id}`}),
       validateStatus: (response, result) => {
-        console.log("res", response, result)
         return response.status === 200 && !result.isError
       },
       transformResponse: responseData => {
-        console.log(responseData)
         // set frontend data from backend mongodb data
         const loadedSessions = responseData.map(session => {
           session.id = session._id
@@ -63,11 +60,9 @@ export const sessionsApiSlice = apiSlice.injectEndpoints({
     checkForActiveSession: builder.query({
       query: (id) => ({url: `/sessions/active/${id}`}),
       validateStatus: (response, result) => {
-        console.log("res", response, result, "yay")
         return response.status === 200 && !result.isError
       },
       transformResponse: responseData => {
-        console.log("active res: ", responseData)
         // set frontend data from backend mongodb data
         const loadedSessions = responseData.map(session => {
           session.id = session._id
