@@ -60,6 +60,7 @@ export const sessionsApiSlice = apiSlice.injectEndpoints({
     checkForActiveSession: builder.query({
       query: (id) => ({url: `/sessions/active/${id}`}),
       validateStatus: (response, result) => {
+        console.log("active: ", response)
         return response.status === 200 && !result.isError
       },
       transformResponse: responseData => {

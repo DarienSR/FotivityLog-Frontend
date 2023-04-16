@@ -14,7 +14,6 @@ const {
   isError,
   error
 } = useGetSessionsByIdQuery(sessionId, {
-
 })
 
   let session = data?.entities[sessionId]

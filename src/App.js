@@ -13,6 +13,7 @@ import EditSession from './components/sessions/EditSession';
 import NewSession from './components/sessions/NewSession';
 import Prefetch from './components/authentication/Prefetch';
 import PersistLogin from './components/authentication/PersistLogin';
+import Organizer from './components/organizer/Organizer';
 function App() {
   return (
     <Routes>
@@ -40,6 +41,10 @@ function App() {
                   <Route index element={<SessionList />} />
                   <Route path="edit/:id" element={<EditSession />} />
                   <Route path="new" element={<NewSession />} />
+                </Route>
+
+                <Route path="organizer">
+                  <Route index element={<Organizer />} />
                 </Route>
 
                 {/* <Route path="admin" element={<AdminDashboard />}>

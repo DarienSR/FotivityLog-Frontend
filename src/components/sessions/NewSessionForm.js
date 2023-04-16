@@ -11,23 +11,18 @@ const NewSessionForm = ({ users }) => {
 
     const { username, email, id} = useAuth()
 
-    const { data } = useCheckForActiveSessionQuery(id, {
+    let { data, isLoading, isSuccess, error } = useCheckForActiveSessionQuery(id, {
          count: 5 ,
         // this overrules the api definition setting,
         // forcing the query to always fetch when this component is mounted
         refetchOnMountOrArgChange: true 
     })
  
-    let active = false;
-    if(data) {
-        active = data.ids.length >= 1 ? true : false
-    }
-
     const [addNewSession, {
-        isLoading,
-        isSuccess,
+        isLoadingS,
+        isSuccessS,
         isError,
-        error
+        errors
     }] = useAddNewSessionMutation()
     
     const [updateSession, {
@@ -42,8 +37,10 @@ const NewSessionForm = ({ users }) => {
     const [topic, setTopic] = useState('')
     const [desc, setDescription] = useState('')
     const [location, setLocation] = useState('')
-    const [activeSession, setActiveSession] = useState(active);
-   
+    const [activeSession, setActiveSession] = useState(false);
+    
+
+
     const onTopicChanged = e => setTopic(e.target.value)
     const onDescriptionChanged = e => setDescription(e.target.value)
     const onLocationChanged = e => setLocation(e.target.value)
@@ -61,19 +58,36 @@ const NewSessionForm = ({ users }) => {
         return format(new Date(), "yyyy-MM-dd hh:mm aaaaa'm'");
     }
 
-
     // Initialize Session
     const onStartSessionClicked = async (e) => {
         e.preventDefault()
         setActiveSession(true)
         await addNewSession({ user_id: id, start_time: getCurrentTime() })
     }
+
+    let display = null;
     // Update Session when user is finished.
     const onSaveSessionClicked = async (e) => {
         e.preventDefault()
-        await updateSession({ id: data.ids[0], user_id: id, topic, desc, location, social, focused, distracted, deep_work, start_time: data.entities[data.ids[0]].start_time, end_time: getCurrentTime() })   
+        await updateSession({ id: data.ids[0], user_id: id, topic, desc, location, social, focused, distracted, deep_work, start_time: data.entities[data.ids[0]].start_time, end_time: getCurrentTime() })  
+        data = null 
         navigate("/log/sessions")
     }
+
+
+
+    if(isLoading) {
+        display = <p>Loading....</p>
+    } else if (isSuccess && data.ids.length >= 1 && !activeSession) {
+        setActiveSession(true)
+    } else {
+        display = <div className="form-container">
+        <form className="form" onSubmit={onStartSessionClicked}>
+            <button style={styles.start}>Start</button> 
+        </form>
+    </div>
+    }
+
 
 
     const errClass = isError ? "errmsg" : "offscreen"
@@ -84,7 +98,7 @@ const NewSessionForm = ({ users }) => {
         <div className="fotivity-container">
             <p className={errClass}>{error?.data?.message}</p>
 
-      
+        
             <div className="component-nav">
                 <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
                 <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
@@ -142,12 +156,7 @@ const NewSessionForm = ({ users }) => {
 
                     <button className="form__submit-button">Add</button>
                 </form>
-                : <div className="form-container">
-                    <form className="form" onSubmit={onStartSessionClicked}>
-                        <button style={styles.start}>Start</button> 
-                    </form>
-            
-                </div>
+                : {...display}
             }
             </main>
         </div>
