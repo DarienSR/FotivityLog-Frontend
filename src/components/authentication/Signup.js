@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAddNewUserMutation } from "../users/usersApiSlice"
 import { useNavigate, Link } from "react-router-dom"
-import { ROLES } from "../../config/roles"
 import "../../App.css"
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/

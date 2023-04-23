@@ -11,11 +11,8 @@ const NewSessionForm = ({ users }) => {
 
     const { username, email, id} = useAuth()
 
-    let { data, isLoading, isSuccess, error } = useCheckForActiveSessionQuery(id, {
+    let { data, refetch, isLoading, isSuccess, error } = useCheckForActiveSessionQuery(id, {
          count: 5 ,
-        // this overrules the api definition setting,
-        // forcing the query to always fetch when this component is mounted
-        refetchOnMountOrArgChange: true 
     })
  
     const [addNewSession, {
@@ -70,7 +67,7 @@ const NewSessionForm = ({ users }) => {
     const onSaveSessionClicked = async (e) => {
         e.preventDefault()
         await updateSession({ id: data.ids[0], user_id: id, topic, desc, location, social, focused, distracted, deep_work, start_time: data.entities[data.ids[0]].start_time, end_time: getCurrentTime() })  
-        data = null 
+        refetch() // force re-fetches the data, which checks for an active sessions. Find nothing because we just saved the new session.
         navigate("/log/sessions")
     }
 
