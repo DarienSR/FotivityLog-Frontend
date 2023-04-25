@@ -67,7 +67,10 @@ let styles = {
     justifyContent: 'space-between',
     textAlign: 'center',
     boxShadow: '2px 3px 4px 2px #bfbaba',
-    backgroundColor: 'white',
+    position: 'fixed',
+    top: '0%',
+    width: '100%',
+    backgroundColor: 'white'
   },
   navbarHeader: {
     display: 'flex',

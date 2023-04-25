@@ -1,26 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import "../../App.css"
+const Session = (props) => {
+  console.log("indv, ", props.session)
 
-import { useGetSessionsByIdQuery } from "./sessionsApiSlice"
-const Session = ({ sessionId }) => {
-//  const session = useSelector(state => selectSessionById(state, sessionId))
-
-const {
-  data,
-  isLoading,
-  isSuccess,
-  isError,
-  error
-} = useGetSessionsByIdQuery(sessionId, {
-})
-
-  let session = data?.entities[sessionId]
+  let session = props.session
   const navigate = useNavigate()
 
   if(session) {
-    const handleEdit = () => navigate(`/log/sessions/edit/${sessionId}`)
+    const handleEdit = () => navigate(`/log/sessions/edit/${props.sessionId}`)
 
     const currentSession = session.end_time === null ? 'session-active session' : 'session'
   

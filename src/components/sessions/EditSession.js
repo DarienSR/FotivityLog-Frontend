@@ -15,11 +15,11 @@ const EditSession = () => {
       } = useGetSessionsByIdQuery(id, {
       
       })
-
-    let session = data.entities[id]
-    console.log("s", session)
-    const content = data ? <EditSessionForm session={session} /> : <p>Loading...</p>
-
+      let content = "Loading";
+    if(isSuccess) {
+        let session = data.entities[id]
+        content = <EditSessionForm session={session} />
+    }
     return content
 }
 export default EditSession

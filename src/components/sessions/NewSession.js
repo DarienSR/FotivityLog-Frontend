@@ -5,7 +5,6 @@ import NewSessionForm from './NewSessionForm'
 const NewSession = () => {
     const users = useSelector(selectAllUsers)
 
-    console.log("users", users)
 
     // if (!users?.length) return <p>Not Currently Available</p>
 

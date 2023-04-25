@@ -9,6 +9,7 @@ const SessionList = () => {
   const { username, email, id} = useAuth()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  
   const {
     data: sessions,
     isLoading,
@@ -35,8 +36,7 @@ const SessionList = () => {
   }
   if(isSuccess) {
     const { ids } = sessions
-    const sessionMap = ids?.length ? ids.map(sessionId => <Session key={sessionId} sessionId={sessionId} />) : <p>No Sessions Available</p>
-  
+    const sessionMap = ids?.length ? ids.map(sessionId => <Session key={sessionId} session={sessions.entities[sessionId]} sessionId={sessionId} />) : <p>No Sessions Available</p>  
     content = (
       <div className="fotivity-container">
         <div className="component-nav">

@@ -92,10 +92,7 @@ const NewSessionForm = ({ users }) => {
     const validDescriptionClass = !desc ? "form__input--incomplete" : ''
 
     const content = (
-        <div className="fotivity-container">
-            <p className={errClass}>{error?.data?.message}</p>
-
-        
+        <div className="fotivity-container">        
             <div className="component-nav">
                 <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
                 <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
@@ -125,7 +122,6 @@ const NewSessionForm = ({ users }) => {
                         value={desc}
                         onChange={onDescriptionChanged}
                         autoComplete="off"
-                        required
                     />
                     <label htmlFor="start-time">Location</label>
                     <input
@@ -135,7 +131,6 @@ const NewSessionForm = ({ users }) => {
                         value={location}
                         onChange={onLocationChanged}
                         autoComplete="off"
-                        required
                     />
 
                 <div className="checkbox-container">
