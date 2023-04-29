@@ -3,8 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAddNewSessionMutation, useCheckForActiveSessionQuery, useUpdateSessionMutation } from "./sessionsApiSlice"
 import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
-import axios from "axios";
-
 
 
 const NewSessionForm = ({ users }) => {
@@ -36,8 +34,6 @@ const NewSessionForm = ({ users }) => {
     const [location, setLocation] = useState('')
     const [activeSession, setActiveSession] = useState(false);
     
-
-
     const onTopicChanged = e => setTopic(e.target.value)
     const onDescriptionChanged = e => setDescription(e.target.value)
     const onLocationChanged = e => setLocation(e.target.value)
@@ -46,6 +42,7 @@ const NewSessionForm = ({ users }) => {
     const [deep_work, setDeepWork] = useState(false)
     const [social, setSocial] = useState(false)
     const [distracted, setDistracted] = useState(false)
+
     const onFocusedChanged = e => setFocused(e.target.checked)
     const onDistractedChanged = e => setDistracted(e.target.checked)
     const onSocialChanged = e => setSocial(e.target.checked)

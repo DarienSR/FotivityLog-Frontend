@@ -14,6 +14,7 @@ import NewSession from './components/sessions/NewSession';
 import Prefetch from './components/authentication/Prefetch';
 import PersistLogin from './components/authentication/PersistLogin';
 import Organizer from './components/organizer/Organizer';
+import CreateTask from './components/organizer/Task/CreateTask';
 function App() {
   return (
     <Routes>
@@ -45,6 +46,7 @@ function App() {
 
                 <Route path="organizer">
                   <Route index element={<Organizer />} />
+                  <Route path="task/create" element={<CreateTask />} />
                 </Route>
 
                 {/* <Route path="admin" element={<AdminDashboard />}>
