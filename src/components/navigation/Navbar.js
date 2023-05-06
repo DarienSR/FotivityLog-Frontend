@@ -34,7 +34,8 @@ const Navbar = () => {
         <div style={ styles.navbarMain   }>
         {(username && email && id) ? 
           <>
-            <p style={pathname === '/log/organizer' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/organizer">Organizer</Link></p>
+            <p style={pathname === '/log/schedule' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/schedule">Schedule</Link></p>
+            <p style={pathname === '/log/projects' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/projects">Projects</Link></p>
             <p style={pathname === '/log/dashboard' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/dashboard">Dashboard</Link></p>
             <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}}to="/log/sessions">Sessions</Link></p>
           </> : null

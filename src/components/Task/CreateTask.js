@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAddNewTaskMutation } from "./taskApiSlice"
-import useAuth from '../../../hooks/useAuth.js'
+import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
 
 

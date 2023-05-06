@@ -82,12 +82,6 @@ const NewSessionForm = ({ users }) => {
     </div>
     }
 
-
-
-    const errClass = isError ? "errmsg" : "offscreen"
-    const validTopicClass = !topic ? "form__input--incomplete" : ''
-    const validDescriptionClass = !desc ? "form__input--incomplete" : ''
-
     const content = (
         <div className="fotivity-container">        
             <div className="component-nav">

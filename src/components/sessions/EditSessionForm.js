@@ -104,7 +104,7 @@ const EditSessionForm = (props) => {
                 value={desc}
                 onChange={onDescriptionChanged}
                 autoComplete="off"
-                required
+                
             />
             <label htmlFor="location">Location</label>
             <input
@@ -114,7 +114,7 @@ const EditSessionForm = (props) => {
                 value={location}
                 onChange={onLocationChanged}
                 autoComplete="off"
-                required
+                
             />
 
           <label htmlFor="start_time">Start Time</label>

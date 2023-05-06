@@ -1,12 +1,12 @@
 import '../../App.css'
-import { useGetScheduledTasksQuery } from './Task/taskApiSlice'
+import { useGetScheduledTasksQuery } from '../Task/taskApiSlice'
 import useAuth from '../../hooks/useAuth.js'
-import Task from "./Task/Task"
+import Task from "../Task/Task"
 
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import "../../App.css"
 
-const Organizer = () => {
+const Schedule = () => {
   const navigate = useNavigate()
   const { username, email, id} = useAuth()
 
@@ -43,10 +43,9 @@ const Organizer = () => {
       <h1>Schedule</h1>
       { content }
 
-      <button onClick={() => navigate("./")}>Go to Projects (put in navbar)</button>
       <button onClick={() => navigate("./task/create")}>Create Task</button>
     </div>
   )
 }
 
-export default Organizer
+export default Schedule

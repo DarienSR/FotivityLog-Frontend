@@ -2,19 +2,28 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/Layout';
 import Landing from './components/Landing';
-import Login from './components/authentication/Login';
 import FotivityLog from './components/FotivityLog';
-import Dashboard from './components/dashboard/Dashboard';
-import SessionList from './components/sessions/SessionList';
-import User from './components/users/User';
-import EditUser from './components/users/EditUser';
+import Login from './components/authentication/Login';
 import Signup from './components/authentication/Signup';
+import PersistLogin from './components/authentication/PersistLogin';
+import Prefetch from './components/authentication/Prefetch';
+
+
+// Sessions and Dashboard
+import SessionList from './components/sessions/SessionList';
 import EditSession from './components/sessions/EditSession';
 import NewSession from './components/sessions/NewSession';
-import Prefetch from './components/authentication/Prefetch';
-import PersistLogin from './components/authentication/PersistLogin';
-import Organizer from './components/organizer/Organizer';
-import CreateTask from './components/organizer/Task/CreateTask';
+import Dashboard from './components/dashboard/Dashboard';
+
+// Users
+import User from './components/users/User';
+import EditUser from './components/users/EditUser';
+
+// Project and Schedule
+import Schedule from './components/schedule/Schedule';
+import CreateTask from './components/Task/CreateTask';
+import Board from "./components/projects/Board";
+
 function App() {
   return (
     <Routes>
@@ -44,11 +53,15 @@ function App() {
                   <Route path="new" element={<NewSession />} />
                 </Route>
 
-                <Route path="organizer">
-                  <Route index element={<Organizer />} />
+                <Route path="schedule">
+                  <Route index element={<Schedule />} />
                   <Route path="task/create" element={<CreateTask />} />
                 </Route>
 
+
+                <Route path="projects">
+                  <Route index element={<Board />} />
+                </Route>
                 {/* <Route path="admin" element={<AdminDashboard />}>
                   <Route path="site-analytics">
                     // daily users
