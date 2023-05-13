@@ -31,7 +31,7 @@ export default function CreateProjectTask(props) {
   
   const onCreateTaskClicked = async (e) => {
     e.preventDefault()
-    await addNewTask({ user_id: id, stage, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(`/log/projects/${project_id}`) })
+    await addNewTask({ user_id: id, stage, belongsToProject: true, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(`/log/projects/${project_id}`) })
 }
 
   return <div className="fotivity-container">
