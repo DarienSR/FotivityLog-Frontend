@@ -18,9 +18,9 @@ const Schedule = () => {
   return (
     <div className='fotivity-container'>
       <h1>Schedule</h1>
+      <button onClick={() => navigate("./task/create")}>Create Task</button>
       <ScheduleDnD />
 
-      <button onClick={() => navigate("./task/create")}>Create Task</button>
     </div>
   )
 }

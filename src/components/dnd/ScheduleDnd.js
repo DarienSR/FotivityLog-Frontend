@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
 import { reorder } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
-import { useGetScheduledTasksQuery } from "../Task/taskApiSlice";
+import { useGetScheduledTasksQuery, useUpdateTaskMutation } from "../Task/taskApiSlice";
+
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
 export const ScheduleDnD = () => {
@@ -22,6 +23,8 @@ export const ScheduleDnD = () => {
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
+
+  const [updateTask] = useUpdateTaskMutation()
 
 
 // Define the default stages
@@ -46,6 +49,7 @@ let streaks = [
     // loop through ids and get the tasks
     for(let i = 0; i < ids.length; i++) {
       let task = tasks.entities[ids[i]];
+     console.log(task)
       // task.stage is an integer reflecting the stage index
       // push task into the stage it is associated with
       week[task.stage].items.push(task)
@@ -57,6 +61,14 @@ let streaks = [
   } 
   
   if(categories === null) return
+
+
+  function UpdateTaskStage(task, newStage, updatedCategories) {
+    task.stage = newStage
+    console.log("--->_", task)
+    updateTask(task)
+    setCategories(updatedCategories);
+  }
 
   // Loop through data and assign to corresponding stage
   // if there is no stage assigned to task, then default should be under consideration
@@ -105,9 +117,17 @@ let streaks = [
             ? { ...category, items: destinationOrder }
             : category
         );
+        let task = JSON.parse(JSON.stringify(destinationOrder[destination.index]))
+        UpdateTaskStage(task, result.destination.droppableId, updatedCategories)
 
-        setCategories(updatedCategories);
-        console.log(`Source: ${result.source.droppableId}, Destination: ${result.destination.droppableId}, Item: ${destinationOrder[destination.index].name}`)
+
+    
+
+
+
+
+        
+
       }
     }
 
@@ -160,8 +180,7 @@ let styles = {
     backgroundColor: 'whitesmoke',
     width: '80%',
     flexWrap: 'wrap',
-    float: 'right'
-    
+    margin: '1rem'
   },
   column: {
     margin: "1rem",
