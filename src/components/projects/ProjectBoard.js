@@ -1,4 +1,4 @@
-import { NestedListComponent } from "../dnd/NestedListComponent"
+import { ProjectDnD } from "../dnd/ProjectDnD"
 import { useNavigate, useLocation } from "react-router-dom"
 export default function ProjectBoard() {
   const navigate = useNavigate()
@@ -12,6 +12,6 @@ export default function ProjectBoard() {
       <p>Detailed View</p>
       <button onClick={() => navigate(`/log/projects/task/${project_id}/new`)}>New Task</button>
     </div>
-    <NestedListComponent />
+    <ProjectDnD />
   </>
 }

@@ -4,7 +4,7 @@ import { reorder } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
 import { useGetProjectTasksQuery } from "../Task/taskApiSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom"
-export const NestedListComponent = () => {
+export const ProjectDnD = () => {
   const { id } = useAuth()
   const { pathname } = useLocation()
   let path =  pathname.split('/').slice(-1)[0]

@@ -21,7 +21,7 @@ import EditUser from './components/users/EditUser';
 
 // Project and Schedule
 import Schedule from './components/schedule/Schedule';
-import CreateTask from './components/Task/CreateTask';
+import CreateScheduleTask from './components/schedule/CreateScheduleTask';
 import ProjectBoard from "./components/projects/ProjectBoard";
 import ProjectList from './components/projects/ProjectList';
 import CreateProject from './components/projects/CreateProject';
@@ -57,7 +57,7 @@ function App() {
 
                 <Route path="schedule">
                   <Route index element={<Schedule />} />
-                  <Route path="task/create" element={<CreateTask />} />
+                  <Route path="task/create" element={<CreateScheduleTask />} />
                 </Route>
 
 

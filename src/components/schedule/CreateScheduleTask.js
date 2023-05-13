@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewTaskMutation } from "./taskApiSlice"
+import { useAddNewTaskMutation } from "../Task/taskApiSlice"
 import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
 
 
-export default function CreateTask() {
+export default function CreateScheduleTask() {
   const { username, email, id} = useAuth()
 
 
@@ -20,6 +20,7 @@ export default function CreateTask() {
   const { pathname } = useLocation()
 
   const [task, setTask] = useState('')
+  const [stage, setStage] = useState(0)
 
 
   const [finishBy, setFinishBy] = useState('')
@@ -29,7 +30,7 @@ export default function CreateTask() {
   
   const onCreateTaskClicked = async (e) => {
     e.preventDefault()
-    await addNewTask({ user_id: id, finishBy, tags, notes, links, task }).then(() => { navigate("/log/organizer/") })
+    await addNewTask({ user_id: id, finishBy, tags, notes, links, task, stage, belongsToProject: false }).then(() => { navigate("/log/schedule/") })
 }
 
   return <div className="fotivity-container">
@@ -46,6 +47,16 @@ export default function CreateTask() {
                 id="task"
                 value={task}
                 onChange={(e) => setTask(e.target.value)}
+                required
+            />
+
+            <label htmlFor="task">Stage</label>
+            <input
+                className="form__input"
+                type="int"
+                id="stage"
+                value={stage}
+                onChange={(e) => setStage(e.target.value)}
                 required
             />
 
