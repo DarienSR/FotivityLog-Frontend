@@ -1,46 +1,59 @@
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
 import { reorder } from "./helper"
-
+import useAuth from '../../hooks/useAuth.js'
+import { useGetProjectTasksQuery } from "../Task/taskApiSlice";
+import { Link, useNavigate, useLocation } from "react-router-dom"
 export const NestedListComponent = () => {
-  const [categories, setCategories] = useState([
-    {
-      id: "Future",
-      name: "Future",
-      items: [
-        { id: "abc", name: "First" },
-        { id: "def", name: "Second" }
-      ]
-    },
-    {
-      id: "Queue",
-      name: "Queue",
-      items: [
-        { id: "ghi", name: "Third" },
-        { id: "jkl", name: "Fourth" }
-      ]
-    },
-    {
-      id: "Under Development",
-      name: "Under Development",
-      items: [],
-    },
-    {
-      id: "Testing",
-      name: "Testing",
-      items: [],
-    },
-    {
-      id: "Finished",
-      name: "Finished",
-      items: [],
-    },
-    {
-      id: "Under Consideration",
-      name: "Under Consideration",
-      items: [],
-    },
-  ]);
+  const { id } = useAuth()
+  const { pathname } = useLocation()
+  let path =  pathname.split('/').slice(-1)[0]
+
+  // Load data
+  const {
+    data: tasks,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useGetProjectTasksQuery({user: id, path}, {
+    // pollingInterval: 60000, // refresh data every minute
+    refetchedOnFocus: true, // refresh data when window is focused again
+    refetchOnMountOrArgChange: true
+  })
+
+
+// Define the default stages
+let stages =  [ 
+  { id: "0",name: "Under Consideration",items: [] },
+  { id: "1", name: "Future", items: [] },
+  { id: "2", name: "Queue", items: [] },
+  { id: "3", name: "Under Development", items: [] },
+  { id: "4", name: "Testing", items: []},
+  { id: "5", name: "Finished", items: []}
+]
+
+  const [categories, setCategories] = useState(null);
+
+  if(isSuccess) {
+    const { ids } = tasks
+    // loop through ids and get the tasks
+    for(let i = 0; i < ids.length; i++) {
+      let task = tasks.entities[ids[i]];
+      // task.stage is an integer reflecting the stage index
+      // push task into the stage it is associated with
+      stages[task.stage].items.push(task)
+    }
+
+    // prevent infinite re-render by only setting stages once (initial load)
+    if(categories === null)
+      setCategories(stages)
+  } 
+  
+  if(categories === null) return
+
+  // Loop through data and assign to corresponding stage
+  // if there is no stage assigned to task, then default should be under consideration
 
   const handleDragEnd = (result) => {
     const { type, source, destination } = result;
@@ -121,7 +134,7 @@ export const NestedListComponent = () => {
                       id={item.id}
                       index={index}
                     >
-                      <div style={styles.item}>{item.name}</div>
+                      <div style={styles.item}>{item.task}</div>
                     </Drag>
                   );
                 })}

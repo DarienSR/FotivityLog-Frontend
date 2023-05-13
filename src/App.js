@@ -22,8 +22,10 @@ import EditUser from './components/users/EditUser';
 // Project and Schedule
 import Schedule from './components/schedule/Schedule';
 import CreateTask from './components/Task/CreateTask';
-import Board from "./components/projects/Board";
-
+import ProjectBoard from "./components/projects/ProjectBoard";
+import ProjectList from './components/projects/ProjectList';
+import CreateProject from './components/projects/CreateProject';
+import CreateProjectTask from './components/projects/CreateProjectTask';
 function App() {
   return (
     <Routes>
@@ -60,7 +62,10 @@ function App() {
 
 
                 <Route path="projects">
-                  <Route index element={<Board />} />
+                  <Route index element={<ProjectList />} />
+                  <Route path=":id" element={<ProjectBoard />} />
+                  <Route path="create" element={<CreateProject />} />
+                  <Route path="task/:id/new" element={<CreateProjectTask />} />
                 </Route>
                 {/* <Route path="admin" element={<AdminDashboard />}>
                   <Route path="site-analytics">
