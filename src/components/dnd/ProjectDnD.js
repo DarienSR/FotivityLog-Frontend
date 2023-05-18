@@ -4,6 +4,11 @@ import { reorder } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
 import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../Task/taskApiSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom"
+import Task from "../Task/Task";
+
+
+
+
 export const ProjectDnD = () => {
   const { id } = useAuth()
   const { pathname } = useLocation()
@@ -59,6 +64,8 @@ let stages =  [
     updateTask(task)
     setCategories(updatedCategories);
   }
+
+
 
   // Loop through data and assign to corresponding stage
   // if there is no stage assigned to task, then default should be under consideration
@@ -126,32 +133,27 @@ let stages =  [
   };
 
   return (
-    <DragAndDrop onDragEnd={handleDragEnd}>
-      <Drop style={ styles.board } id="droppable" type="droppable-category">
-        {categories.map((category, categoryIndex) => {
-          return (
-            <div style={ styles.column }>
-              <h2 style={styles.columnTitle}>{category.name}</h2>
+    <>
+      <DragAndDrop onDragEnd={handleDragEnd}>
+        <Drop style={ styles.board } id="droppable" type="droppable-category">
+          {categories.map((category, categoryIndex) => {
+            return (
+              <div style={ styles.column }>
+                <h2 style={styles.columnTitle}>{category.name}</h2>
 
-              <Drop key={category.id} id={category.id} type="droppable-item">
-                {category.items.map((item, index) => {
-                  return (
-                    <Drag
-                      className="draggable"
-                      key={item.id}
-                      id={item.id}
-                      index={index}
-                    >
-                      <div style={styles.item}>{item.task}</div>
-                    </Drag>
-                  );
-                })}
-              </Drop>
-            </div>
-          );
-        })}
-      </Drop>
-    </DragAndDrop>
+                <Drop key={category.id} id={category.id} type="droppable-item">
+                  {category.items.map((item, index) => {
+                    return (
+                      <Task index={index} item={item} />
+                    );
+                  })}
+                </Drop>
+              </div>
+            );
+          })}
+        </Drop>
+      </DragAndDrop>
+    </>
   );
 };
 

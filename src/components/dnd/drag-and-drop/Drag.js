@@ -19,9 +19,8 @@ export const Drag = ({ id, index, ...props }) => {
 
 let styles = {
   handle: {
-    backgroundColor: 'rgb(171 171 171)',
-    boxShadow: '2px 1px 2px 1px #b7b7b7',
-    height: '1.5rem',
-    marginTop: '1rem'
+    backgroundColor: 'black',
+    height: '1.25rem',
+    borderRadius: '1rem 1rem 0rem 0rem'
   }
 }

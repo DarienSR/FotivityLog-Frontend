@@ -3,7 +3,7 @@ import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
 import { reorder } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
 import { useGetScheduledTasksQuery, useUpdateTaskMutation } from "../Task/taskApiSlice";
-
+import Task from "../Task/Task";
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
 export const ScheduleDnD = () => {
@@ -44,11 +44,13 @@ let streaks = [
 
   const [categories, setCategories] = useState(null);
 
+
   if(isSuccess) {
     const { ids } = tasks
     // loop through ids and get the tasks
     for(let i = 0; i < ids.length; i++) {
       let task = tasks.entities[ids[i]];
+
      console.log(task)
       // task.stage is an integer reflecting the stage index
       // push task into the stage it is associated with
@@ -65,7 +67,6 @@ let streaks = [
 
   function UpdateTaskStage(task, newStage, updatedCategories) {
     task.stage = newStage
-    console.log("--->_", task)
     updateTask(task)
     setCategories(updatedCategories);
   }
@@ -119,15 +120,6 @@ let streaks = [
         );
         let task = JSON.parse(JSON.stringify(destinationOrder[destination.index]))
         UpdateTaskStage(task, result.destination.droppableId, updatedCategories)
-
-
-    
-
-
-
-
-        
-
       }
     }
 
@@ -144,32 +136,27 @@ let streaks = [
   };
 
   return (
-    <DragAndDrop onDragEnd={handleDragEnd}>
-      <Drop style={ styles.board } id="droppable" type="droppable-category">
-        {categories.map((category, categoryIndex) => {
-          return (
-            <div style={ styles.column }>
-              <h2 style={styles.columnTitle}>{category.name}</h2>
+    <>
+      <DragAndDrop onDragEnd={handleDragEnd}>
+        <Drop style={ styles.board } id="droppable" type="droppable-category">
+          {categories.map((category, categoryIndex) => {
+            return (
+              <div style={ styles.column }>
+                <h2 style={styles.columnTitle}>{category.name}</h2>
 
-              <Drop key={category.id} id={category.id} type="droppable-item">
-                {category.items.map((item, index) => {
-                  return (
-                    <Drag
-                      className="draggable"
-                      key={item.id}
-                      id={item.id}
-                      index={index}
-                    >
-                      <div style={styles.item}>{item.task}</div>
-                    </Drag>
-                  );
-                })}
-              </Drop>
-            </div>
-          );
-        })}
-      </Drop>
-    </DragAndDrop>
+                <Drop key={category.id} id={category.id} type="droppable-item">
+                  {category.items.map((item, index) => {
+                    return (
+                      <Task index={index} item={item} />
+                    );
+                  })}
+                </Drop>
+              </div>
+            );
+          })}
+        </Drop>
+      </DragAndDrop>
+    </>
   );
 };
 
@@ -177,24 +164,25 @@ let styles = {
   board: {
     display: 'flex',
     minHeight: '80vh',
-    backgroundColor: 'whitesmoke',
-    width: '80%',
+    justifyContent: 'center',
+    width: '100%',
     flexWrap: 'wrap',
-    margin: '1rem'
+    borderRadius: '1rem',
+    margin: "1rem",
   },
   column: {
     margin: "1rem",
     width: '10%',
-    padding: "1rem"
+    padding: "1rem",
   },
   columnTitle: {
     textAlign: 'center',
     borderBottom: '2px solid black'
   },
   item: {
-    backgroundColor: 'rgb(233 229 229)',
     boxShadow: '2px 2px #b7b7b7',
     height: '2rem',
     padding: '1rem',
+    width: '100%'
   }
 }
