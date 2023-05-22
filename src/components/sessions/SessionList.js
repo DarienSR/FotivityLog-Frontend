@@ -6,7 +6,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import "../../App.css"
 const SessionList = () => {
 
-  const { username, email, id} = useAuth()
+  const { username, email, user_id} = useAuth()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   
@@ -16,7 +16,7 @@ const SessionList = () => {
     isSuccess,
     isError,
     error
-  } = useGetSessionsQuery(id, {
+  } = useGetSessionsQuery(user_id, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { selectCurrentToken } from "./authSlice"
 import useAuth from '../../hooks/useAuth.js'
 const PersistLogin = () => {
-    const { username, email, id} = useAuth()
+    const { username, email, user_id} = useAuth()
     const [persist] = usePersist()
     const token = useSelector(selectCurrentToken)
     const effectRan = useRef(true)
@@ -23,7 +23,7 @@ const PersistLogin = () => {
 
 
     useEffect(() => {
-        console.log("dd", token)
+      
 
         if (effectRan.current === true || process.env.NODE_ENV !== 'development' || token) { // React 18 Strict Mode
 
@@ -61,7 +61,7 @@ const PersistLogin = () => {
             </p>
         )
     } else {
-        console.log("authenticated: ", token, id, username)
+        console.log("authenticated: ", token, user_id, username)
         content = <Outlet />
     }
 

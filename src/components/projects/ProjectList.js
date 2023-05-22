@@ -5,8 +5,10 @@ import useAuth from '../../hooks/useAuth.js'
 import "../../App.css"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 export default function ProjectList() {
+
   // get users projects
-  const { id } = useAuth()
+  const { user_id } = useAuth()
+
   const navigate = useNavigate()
   const {
     data: tasks,
@@ -14,7 +16,7 @@ export default function ProjectList() {
     isSuccess,
     isError,
     error
-  } = useGetAllProjectsQuery(id, {
+  } = useGetAllProjectsQuery(user_id, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true

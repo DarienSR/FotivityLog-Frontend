@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 
 export default function CreateProject() {
-  const { username, email, id} = useAuth()
+  const { username, email, user_id} = useAuth()
 
 
   const [addNewProject, {
@@ -28,7 +28,7 @@ export default function CreateProject() {
   
   const onCreateProjectClicked = async (e) => {
     e.preventDefault()
-    await addNewProject({ user_id: id, name }).then(() => { navigate("/log/projects") })
+    await addNewProject({ user_id, name }).then(() => { navigate("/log/projects") })
 }
 
   return <div className="fotivity-container">

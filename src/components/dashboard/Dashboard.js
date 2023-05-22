@@ -13,7 +13,7 @@ import { ProcessSessionData } from './SessionProcessing';
 import InfoDisplay from './charts/InfoDisplay';
 
 const Dashboard = () => {
-  const { username, email, id} = useAuth()
+  const { username, email, user_id} = useAuth()
 
   const {
     data: sessions,
@@ -21,7 +21,7 @@ const Dashboard = () => {
     isSuccess,
     isError,
     error
-  } = useGetSessionsQuery(id, {
+  } = useGetSessionsQuery(user_id, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true

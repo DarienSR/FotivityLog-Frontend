@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  const { username, email, id} = useAuth()
+  const { username, email, user_id} = useAuth()
   console.log(pathname)
   if(pathname === '/dashboard') console.log("highlight dashboard")
 
@@ -32,7 +32,7 @@ const Navbar = () => {
         </div>
 
         <div style={ styles.navbarMain   }>
-        {(username && email && id) ? 
+        {(username && email && user_id) ? 
           <>
             <p style={pathname === '/log/schedule' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/schedule">Schedule</Link></p>
             <p style={pathname === '/log/projects' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/projects">Projects</Link></p>
@@ -43,7 +43,7 @@ const Navbar = () => {
         </div>
 
         <div style={ styles.navbarSide  }>
-          {(username && email && id) ? 
+          {(username && email && user_id) ? 
           <>
             <p style={styles.link}><Link style={{textDecoration: 'none', color: "black"}} to="/log/user">{username}</Link></p>
             <button style={styles.link} onClick={sendLogout}>Logout</button>     

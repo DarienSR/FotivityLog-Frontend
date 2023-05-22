@@ -10,9 +10,9 @@ const useAuth = () => {
     if (token) {
         const decoded = jwtDecode(token)
 
-        const { username, roles , email, id } = decoded.UserInfo
+        const { username, roles , email, user_id } = decoded.UserInfo
 
-        return { username, id, email}
+        return { username, user_id, email}
     }
 
     return { username: '', roles: [], isAdmin, status }

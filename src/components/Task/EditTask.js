@@ -3,7 +3,7 @@ import { useUpdateTaskMutation, useDeleteTaskMutation } from "./taskApiSlice"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import useAuth from '../../hooks/useAuth.js'
 export default function EditTask(props) {
-  const { id } = useAuth()
+  const { user_id } = useAuth()
 
   const navigate = useNavigate()
 
@@ -18,14 +18,14 @@ export default function EditTask(props) {
 
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault()
-    await updateTask({user_id: id, task, id: props.item.id, stage: props.item.stage })
+    await updateTask({user_id, task, id: props.item.id, stage: props.item.stage })
 
     navigate(0)
   }
 
   const DeleteTask = async (e) => {
     e.preventDefault()
-    await deleteTask({user_id: id, id: props.item.id})
+    await deleteTask({user_id, id: props.item.id})
     navigate(0)
   }
 

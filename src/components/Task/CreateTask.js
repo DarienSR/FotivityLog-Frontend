@@ -1,25 +1,29 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewTaskMutation } from "../Task/taskApiSlice"
+import { useAddNewTaskMutation } from "./taskApiSlice"
 import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
 
 
 export default function CreateProjectTask(props) {
-  const { username, email, id} = useAuth()
+  const { username, email, user_id} = useAuth()
 
   const [addNewTask, {
     isLoadingS,
     isSuccessS,
     isError,
     errors
-  }] = useAddNewTaskMutation(id)
+  }] = useAddNewTaskMutation(user_id)
   
   const navigate = useNavigate()
   const { pathname } = useLocation()
   
-  let project_id = pathname.split('/')[4]
-  console.log(project_id)
+  let belongsToProject = pathname.split('/')[4] === 'create' ? false : true;
+  let project_id = null;
+ 
+  if(belongsToProject) project_id = pathname.split('/')[4]
+  let navPath = belongsToProject ? `/log/projects/${project_id}` : "/log/schedule/";
+
   const [task, setTask] = useState('')
 
 
@@ -29,16 +33,17 @@ export default function CreateProjectTask(props) {
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState([])
   
+
   const onCreateTaskClicked = async (e) => {
     e.preventDefault()
-    await addNewTask({ user_id: id, stage, belongsToProject: true, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(`/log/projects/${project_id}`) })
+    await addNewTask({ user_id, stage, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(navPath) })
 }
 
   return <div className="fotivity-container">
     <main className="form-container">
         <form className="form" onSubmit={onCreateTaskClicked}>
             <header>
-                <h1>Add Task</h1>
+              <h1>Add Task</h1>
             </header>
 
             <label htmlFor="task">Task</label>

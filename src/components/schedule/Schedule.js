@@ -1,16 +1,13 @@
 import '../../App.css'
-import { useGetScheduledTasksQuery } from '../Task/taskApiSlice'
+import { useGetScheduledTasksQuery } from '../task/taskApiSlice'
 import useAuth from '../../hooks/useAuth.js'
-import Task from "../Task/Task"
-import { ScheduleDnD } from '../dnd/ScheduleDnd'
+import { ScheduleBoard } from '../dnd/ScheduleBoard'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import "../../App.css"
 
 const Schedule = () => {
   const navigate = useNavigate()
-  const { username, email, id} = useAuth()
-
-
+  const { username, email, user_id} = useAuth()
 
   let content;
 
@@ -19,7 +16,7 @@ const Schedule = () => {
     <div className='fotivity-container'>
       <h1>Schedule</h1>
       <button onClick={() => navigate("./task/create")}>Create Task</button>
-      <ScheduleDnD />
+      <ScheduleBoard />
 
     </div>
   )

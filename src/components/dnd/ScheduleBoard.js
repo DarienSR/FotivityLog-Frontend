@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
-import { reorder } from "./helper"
+import { reorder, handleDragEnd } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
-import { useGetScheduledTasksQuery, useUpdateTaskMutation } from "../Task/taskApiSlice";
-import Task from "../Task/Task";
+import { useGetScheduledTasksQuery, useUpdateTaskMutation } from "../task/taskApiSlice";
+import Task from "../task/Task";
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
-export const ScheduleDnD = () => {
-  const { id } = useAuth()
+export const ScheduleBoard = () => {
+  const { user_id } = useAuth()
+
   const { pathname } = useLocation()
   let path =  pathname.split('/').slice(-1)[0]
 
@@ -18,7 +19,7 @@ export const ScheduleDnD = () => {
     isSuccess,
     isError,
     error
-  } = useGetScheduledTasksQuery(id, {
+  } = useGetScheduledTasksQuery(user_id, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
@@ -38,9 +39,6 @@ let week =  [
   { id: "6", name: "Sunday", items: []}
 ]
 
-let streaks = [
-  { id: "0", name: "Streaks", items: [] },
-]
 
   const [categories, setCategories] = useState(null);
 
@@ -71,73 +69,9 @@ let streaks = [
     setCategories(updatedCategories);
   }
 
-  // Loop through data and assign to corresponding stage
-  // if there is no stage assigned to task, then default should be under consideration
-
-  const handleDragEnd = (result) => {
-    const { type, source, destination } = result;
-    if (!destination) return;
-
-    const sourceCategoryId = source.droppableId;
-    const destinationCategoryId = destination.droppableId;
-
-    // Reordering items
-    if (type === "droppable-item") {
-      // If drag and dropping within the same category
-      if (sourceCategoryId === destinationCategoryId) {
-        const updatedOrder = reorder(
-          categories.find((category) => category.id === sourceCategoryId).items,
-          source.index,
-          destination.index
-        );
-        const updatedCategories = categories.map((category) =>
-          category.id !== sourceCategoryId
-            ? category
-            : { ...category, items: updatedOrder }
-        );
-
-        setCategories(updatedCategories);
-      } else {
-        const sourceOrder = categories.find(
-          (category) => category.id === sourceCategoryId
-        ).items;
-        const destinationOrder = categories.find(
-          (category) => category.id === destinationCategoryId
-        ).items;
-
-        const [removed] = sourceOrder.splice(source.index, 1);
-        destinationOrder.splice(destination.index, 0, removed);
-
-        destinationOrder[removed] = sourceOrder[removed];
-        delete sourceOrder[removed];
-
-        const updatedCategories = categories.map((category) =>
-          category.id === sourceCategoryId
-            ? { ...category, items: sourceOrder }
-            : category.id === destinationCategoryId
-            ? { ...category, items: destinationOrder }
-            : category
-        );
-        let task = JSON.parse(JSON.stringify(destinationOrder[destination.index]))
-        UpdateTaskStage(task, result.destination.droppableId, updatedCategories)
-      }
-    }
-
-    // Reordering categories
-    if (type === "droppable-category") {
-      const updatedCategories = reorder(
-        categories,
-        source.index,
-        destination.index
-      );
-
-      setCategories(updatedCategories);
-    }
-  };
-
   return (
     <>
-      <DragAndDrop onDragEnd={handleDragEnd}>
+      <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
         <Drop style={ styles.board } id="droppable" type="droppable-category">
           {categories.map((category, categoryIndex) => {
             return (

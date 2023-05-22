@@ -21,11 +21,12 @@ import EditUser from './components/users/EditUser';
 
 // Project and Schedule
 import Schedule from './components/schedule/Schedule';
-import CreateScheduleTask from './components/schedule/CreateScheduleTask';
-import ProjectBoard from "./components/projects/ProjectBoard";
+import CreateTask from './components/task/CreateTask';
+import Project from "./components/projects/Project";
 import ProjectList from './components/projects/ProjectList';
 import CreateProject from './components/projects/CreateProject';
-import CreateProjectTask from './components/projects/CreateProjectTask';
+
+
 function App() {
   return (
     <Routes>
@@ -57,15 +58,15 @@ function App() {
 
                 <Route path="schedule">
                   <Route index element={<Schedule />} />
-                  <Route path="task/create" element={<CreateScheduleTask />} />
+                  <Route path="task/create" element={<CreateTask />} />
                 </Route>
 
 
                 <Route path="projects">
                   <Route index element={<ProjectList />} />
-                  <Route path=":id" element={<ProjectBoard />} />
+                  <Route path=":id" element={<Project />} />
                   <Route path="create" element={<CreateProject />} />
-                  <Route path="task/:id/new" element={<CreateProjectTask />} />
+                  <Route path="task/:id/new" element={<CreateTask />} />
                 </Route>
                 {/* <Route path="admin" element={<AdminDashboard />}>
                   <Route path="site-analytics">

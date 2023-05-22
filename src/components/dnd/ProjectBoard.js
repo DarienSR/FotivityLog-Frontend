@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
-import { reorder } from "./helper"
+import { reorder, handleDragEnd } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
-import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../Task/taskApiSlice";
+import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../task/taskApiSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import Task from "../Task/Task";
+import Task from "../task/Task";
 
-
-
-
-export const ProjectDnD = () => {
-  const { id } = useAuth()
+export const ProjectBoard = () => {
+  const { user_id } = useAuth()
   const { pathname } = useLocation()
   let path =  pathname.split('/').slice(-1)[0]
 
@@ -21,7 +18,7 @@ export const ProjectDnD = () => {
     isSuccess,
     isError,
     error
-  } = useGetProjectTasksQuery({user: id, path}, {
+  } = useGetProjectTasksQuery({user: user_id, path}, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
@@ -65,76 +62,9 @@ let stages =  [
     setCategories(updatedCategories);
   }
 
-
-
-  // Loop through data and assign to corresponding stage
-  // if there is no stage assigned to task, then default should be under consideration
-
-  const handleDragEnd = (result) => {
-    const { type, source, destination } = result;
-    if (!destination) return;
-
-    const sourceCategoryId = source.droppableId;
-    const destinationCategoryId = destination.droppableId;
-
-    // Reordering items
-    if (type === "droppable-item") {
-      // If drag and dropping within the same category
-      if (sourceCategoryId === destinationCategoryId) {
-        const updatedOrder = reorder(
-          categories.find((category) => category.id === sourceCategoryId).items,
-          source.index,
-          destination.index
-        );
-        const updatedCategories = categories.map((category) =>
-          category.id !== sourceCategoryId
-            ? category
-            : { ...category, items: updatedOrder }
-        );
-
-        setCategories(updatedCategories);
-      } else {
-        const sourceOrder = categories.find(
-          (category) => category.id === sourceCategoryId
-        ).items;
-        const destinationOrder = categories.find(
-          (category) => category.id === destinationCategoryId
-        ).items;
-
-        const [removed] = sourceOrder.splice(source.index, 1);
-        destinationOrder.splice(destination.index, 0, removed);
-
-        destinationOrder[removed] = sourceOrder[removed];
-        delete sourceOrder[removed];
-
-        const updatedCategories = categories.map((category) =>
-          category.id === sourceCategoryId
-            ? { ...category, items: sourceOrder }
-            : category.id === destinationCategoryId
-            ? { ...category, items: destinationOrder }
-            : category
-        );
-
-        let task = JSON.parse(JSON.stringify(destinationOrder[destination.index]))
-        UpdateTaskStage(task, result.destination.droppableId, updatedCategories)
-      }
-    }
-
-    // Reordering categories
-    if (type === "droppable-category") {
-      const updatedCategories = reorder(
-        categories,
-        source.index,
-        destination.index
-      );
-
-      setCategories(updatedCategories);
-    }
-  };
-
   return (
     <>
-      <DragAndDrop onDragEnd={handleDragEnd}>
+      <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
         <Drop style={ styles.board } id="droppable" type="droppable-category">
           {categories.map((category, categoryIndex) => {
             return (

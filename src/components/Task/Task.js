@@ -1,5 +1,5 @@
 import { Card, Modal } from 'antd';
-import EditTask from "../Task/EditTask";
+import EditTask from "../task/EditTask";
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "../dnd/drag-and-drop";
 export default function Task(props) {
