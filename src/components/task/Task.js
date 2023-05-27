@@ -45,6 +45,7 @@ export default function Task(props) {
               onCancel={ToggleTaskModal}
               cancelButtonProps={{ style: { display: 'none'} }}
               okButtonProps={{ style: { display: 'none'} }}
+              width={"60%"}
             >
               <ViewTask item={taskModalData} />
             </Modal>

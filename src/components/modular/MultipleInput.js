@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 export default function MultipleInput(props) {
-  let [arr, setArr] = useState([])
+  let [arr, setArr] = useState(props.values || [])
   let [value, setValue] = useState()
   
   let items;

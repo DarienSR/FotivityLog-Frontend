@@ -50,14 +50,6 @@ export default function CreateProjectTask(props) {
   const [stage, setStage] = useState(0)
   const [reoccursOn, setReoccursOn] = useState([])
   
-  function AddToArray() {
-
-  }
-
-  function DeleteFromArray(index) {
-
-  }
-
   const onCreateTaskClicked = async (e) => {
     // prevent value and stage from being less than 0 
 
@@ -96,6 +88,7 @@ export default function CreateProjectTask(props) {
                 onChange={ (e) => setStage(e) }
                 options={ options }
                 label={"Stage"}
+                default={options[0]}
               />
 
 

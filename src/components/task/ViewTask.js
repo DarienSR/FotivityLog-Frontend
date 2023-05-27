@@ -63,7 +63,7 @@ export default function ViewTask(props) {
   <button onClick={() => setToggleEdit(!toggleEdit)}>Edit Task</button>
 </div>
 
-  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.item} /> 
+  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.item} state={{belongsToProject: true, belongsToGoal: false}} /> 
   
 }
 

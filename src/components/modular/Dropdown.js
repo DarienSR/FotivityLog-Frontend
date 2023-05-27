@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Select } from 'antd';
 export default function Dropdown(props) {
-  const [value, setValue] = useState(props.options[0])
+  const [value, setValue] = useState(props.default)
   const [index, setIndex] = useState(null)
 
   const handleChange = (e) => {
@@ -23,7 +23,7 @@ export default function Dropdown(props) {
   return <>
     <label>{props.label}</label>
     <Select
-    defaultValue={ props.options[0] }
+    defaultValue={ props.options[props.default] }
     style={{ width: 200 }}
     onChange={(e) => handleChange(e)}
     options={options}
