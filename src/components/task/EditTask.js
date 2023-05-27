@@ -14,12 +14,12 @@ export default function EditTask(props) {
 
   const onTaskChange = e => setTask(e.target.value)
 
+
   const [deleteConfirmation, setDeleteConfirmation] = useState(false)
 
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault()
     await updateTask({user_id, task, id: props.item.id, stage: props.item.stage })
-
     navigate(0)
   }
 
@@ -33,6 +33,9 @@ export default function EditTask(props) {
     setDeleteConfirmation(!deleteConfirmation)
   }
 
+  function ToggleEditClick() {
+  }
+
   return (
     <div>
       {
@@ -42,9 +45,6 @@ export default function EditTask(props) {
         </div>
       }
       <form className="form" onSubmit={onUpdateTaskClicked}>
-        <header>
-          <h1>Update Task</h1>
-        </header>
         <label htmlFor="task">Task</label>
               <input
                   className="form__input"
@@ -54,7 +54,7 @@ export default function EditTask(props) {
                   onChange={onTaskChange}
                   required
               />
-        <button>Save</button>
+        <button onClick={() => ToggleEditClick}>Save</button>
       </form>
     </div>
   )

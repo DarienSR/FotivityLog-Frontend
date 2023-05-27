@@ -23,12 +23,12 @@ body {
   margin: 0;
   margin-bottom: 1rem;
 }
+
 .form-container {
   margin: 5rem auto;
   width: 60%;
   padding: 1rem;
   /* box-shadow: inset 0px 0px 8px 6px rgba(197, 193, 197, 0.986); */
-  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

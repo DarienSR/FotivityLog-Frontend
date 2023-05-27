@@ -93,8 +93,8 @@ let styles = {
     minHeight: '80vh',
   },
   column: {
-    backgroundColor: 'whitesmoke',
-    boxShadow: '2px 1px 3px 2px #dddbaa',
+    backgroundColor: '#FEF7F7',
+    boxShadow: '1px 2px 5px 1px #938585',
     margin: "1rem",
     width: "16.666%",
     padding: "1rem"

@@ -7,7 +7,7 @@ export default function Project() {
   let project_id = pathname.split('/').splice(-1)[0]
   return <>
     <div>
-      <button onClick={() => navigate(`/log/projects/task/${project_id}/new`)}>New Task</button>
+      <button onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false } })}>New Task</button>
     </div>
     <ProjectBoard />
   </>

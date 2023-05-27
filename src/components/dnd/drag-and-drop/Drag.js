@@ -7,7 +7,7 @@ export const Drag = ({ id, index, ...props }) => {
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...props}>
             <div style={styles.handle} {...provided.dragHandleProps}>
-
+             <p style={styles.value}>{props.value}</p> 
             </div>
             {props.children}
           </div>
@@ -19,8 +19,12 @@ export const Drag = ({ id, index, ...props }) => {
 
 let styles = {
   handle: {
-    backgroundColor: 'black',
-    height: '1.25rem',
-    borderRadius: '1rem 1rem 0rem 0rem'
+    backgroundColor: 'rgb(255 100 100)',
+    height: '1.5rem',
+  },
+  value: {
+    float: 'right',
+    margin: 0,
+    paddingRight: '0.5rem'
   }
 }

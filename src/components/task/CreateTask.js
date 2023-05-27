@@ -1,42 +1,68 @@
-import { useState, useEffect } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAddNewTaskMutation } from "./taskApiSlice"
 import useAuth from '../../hooks/useAuth.js'
-import { format } from "date-fns";
-
-
+import { Col, ColorPicker, Row, Space } from 'antd';
+import Dropdown from "../modular/Dropdown"
+import MultipleInput from "../modular/MultipleInput";
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
-
   const [addNewTask, {
     isLoadingS,
     isSuccessS,
     isError,
     errors
   }] = useAddNewTaskMutation(user_id)
-  
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  
-  let belongsToProject = pathname.split('/')[4] === 'create' ? false : true;
-  let project_id = null;
- 
-  if(belongsToProject) project_id = pathname.split('/')[4]
-  let navPath = belongsToProject ? `/log/projects/${project_id}` : "/log/schedule/";
 
+  const navigate = useNavigate()
+  const { pathname, state } = useLocation()
+
+  // determine if task will be assigned to a project, goal, or schedule.
+  let belongsToProject = state.belongsToProject
+  let belongsToGoal = state.belongsToGoal 
+
+  let project_id = null;
+  let options;
+  if(belongsToProject) {
+    options = ["Under Consideration", "Future", "Queue", "Under Development", "Testing", "Finished"]
+    project_id = pathname.split('/')[4]
+  }
+  
+  let redirectPath = belongsToProject ? `/log/projects/${project_id}` : "/log/schedule/";
+
+  
   const [task, setTask] = useState('')
+  const [value, setValue] = useState(0)
+  const [tagName, setTagName] = useState("")
+
+  const [tagColor, setTagColor] = useState('#1677ff')
+  const [formatHex, setFormatHex] = useState('hex');
+  const hexString = useMemo(
+    () => (typeof tagColor === 'string' ? tagColor : tagColor.toHexString()),
+    [tagColor],
+  );
 
 
   const [finishBy, setFinishBy] = useState('')
-  const [tags, setTags] = useState([])
+  const [desc, setDesc] = useState("")
   const [notes, setNotes] = useState([])
   const [links, setLinks] = useState([])
-  const [stage, setStage] = useState([])
+  const [stage, setStage] = useState(0)
+  const [reoccursOn, setReoccursOn] = useState([])
   
+  function AddToArray() {
+
+  }
+
+  function DeleteFromArray(index) {
+
+  }
 
   const onCreateTaskClicked = async (e) => {
+    // prevent value and stage from being less than 0 
+
     e.preventDefault()
-    await addNewTask({ user_id, stage, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(navPath) })
+    await addNewTask({ user_id, stage, value, desc, reoccursOn, belongsToGoal, belongsToProject, finishBy, tag: { color: hexString, name: tagName }, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
 
   return <div className="fotivity-container">
@@ -46,7 +72,7 @@ export default function CreateProjectTask(props) {
               <h1>Add Task</h1>
             </header>
 
-            <label htmlFor="task">Task</label>
+            <label htmlFor="task">Task*</label>
             <input
                 className="form__input"
                 type="text"
@@ -55,42 +81,63 @@ export default function CreateProjectTask(props) {
                 onChange={(e) => setTask(e.target.value)}
                 required
             />
-            <label htmlFor="task">Stage</label>
-            <input
-                className="form__input"
-                type="int"
-                id="stage"
-                value={stage}
-                onChange={(e) => setStage(e.target.value)}
-                required
-            />
+
+            <label htmlFor="task">Description</label>
+              <input
+                  className="form__input"
+                  type="text"
+                  id="desc"
+                  value={desc}
+                  onChange={(e) => setDesc(e.target.value)}
+              />
+
+            <div style={styles.multipleInputs}>
+              <Dropdown  
+                onChange={ (e) => setStage(e) }
+                options={ options }
+                label={"Stage"}
+              />
 
 
-            <label htmlFor="notes">Notes</label>
-            <input
-                className="form__input"
-                type="text"
-                id="notes"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-            />
-            <label htmlFor="links">Links</label>
-            <input
-                className="form__input"
-                type="text"
-                id="links"
-                value={links}
-                onChange={(e) => setLinks(e.target.value)}
-            />
-            <label htmlFor="tags">Tags</label>
-            <input
-                className="form__input"
-                type="text"
-                id="tags"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-            />
+              <label htmlFor="value">Value</label>
+              <input
+                  className="form__input"
+                  type="number"
+                  id="value"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  min="0"
+                  required
+              />
+            </div>
 
+
+
+            <MultipleInput label={"Links"} Update={(e) => setLinks(e)} />
+
+            <MultipleInput label={"Notes"} Update={(e) => setNotes(e)} />
+
+            <div style={styles.multipleInputs}>
+              <label>Tag Name {tagName || ""}</label>
+              <input
+                  className="form__input"
+                  type="text"
+                  id="desc"
+                  value={tagName}
+                  onChange={(e) => setTagName(e.target.value)}
+                />
+
+              <div>
+                <label>Tag Color</label>
+                <ColorPicker
+                  format={formatHex}
+                  value={tagColor}
+                  onChange={setTagColor}
+                  onFormatChange={setFormatHex}
+                />
+              </div>
+            </div>
+              
             <label htmlFor="finishBy">Finish By</label>
             <input
                 className="form__input"
@@ -103,4 +150,8 @@ export default function CreateProjectTask(props) {
         </form>
     </main>
   </div>
+}
+
+let styles = {
+
 }
