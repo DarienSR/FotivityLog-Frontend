@@ -132,3 +132,25 @@ body {
 .react-calendar-heatmap .color-scale-4 { fill: #6a0bc2; }
 .react-calendar-heatmap .color-scale-5 { fill: #49088a; }
 .react-calendar-heatmap .color-scale-6 { fill: #1a0b29; }
+
+
+/* schedule */
+.events {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.events .ant-badge-status {
+  width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.notes-month {
+  font-size: 28px;
+  text-align: center;
+}
+.notes-month section {
+  font-size: 28px;
+}

@@ -22,7 +22,7 @@ export default function CreateProjectTask(props) {
   let belongsToGoal = state.belongsToGoal 
 
   let project_id = null;
-  let options;
+  let options = [];
   if(belongsToProject) {
     options = ["Under Consideration", "Future", "Queue", "Under Development", "Testing", "Finished"]
     project_id = pathname.split('/')[4]
@@ -45,6 +45,7 @@ export default function CreateProjectTask(props) {
 
   const [finishBy, setFinishBy] = useState('')
   const [desc, setDesc] = useState("")
+  const [scheduled_for, setScheduledFor] = useState(null)
   const [notes, setNotes] = useState([])
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState(0)
@@ -54,7 +55,7 @@ export default function CreateProjectTask(props) {
     // prevent value and stage from being less than 0 
 
     e.preventDefault()
-    await addNewTask({ user_id, stage, value, desc, reoccursOn, belongsToGoal, belongsToProject, finishBy, tag: { color: hexString, name: tagName }, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
+    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, belongsToGoal, belongsToProject, finishBy, tag: { color: hexString, name: tagName }, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
 
   return <div className="fotivity-container">
@@ -83,14 +84,26 @@ export default function CreateProjectTask(props) {
                   onChange={(e) => setDesc(e.target.value)}
               />
 
+            {!belongsToProject && !belongsToGoal? 
+              <>
+                <label htmlFor="task">Scheduled For</label>
+                <input
+                    className="form__input"
+                    type="date"
+                    id="scheduled_for"
+                    value={scheduled_for}
+                    onChange={(e) => setScheduledFor(e.target.value)}
+                /> 
+              </> : null }
+
             <div style={styles.multipleInputs}>
-              <Dropdown  
+             { options.length > 0 ? <Dropdown  
                 onChange={ (e) => setStage(e) }
                 options={ options }
                 label={"Stage"}
                 default={options[0]}
-              />
-
+              /> : null
+             }
 
               <label htmlFor="value">Value</label>
               <input
@@ -111,7 +124,7 @@ export default function CreateProjectTask(props) {
             <MultipleInput label={"Notes"} Update={(e) => setNotes(e)} />
 
             <div style={styles.multipleInputs}>
-              <label>Tag Name {tagName || ""}</label>
+              <label>Tag Name</label>
               <input
                   className="form__input"
                   type="text"
