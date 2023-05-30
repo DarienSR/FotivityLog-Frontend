@@ -3,10 +3,10 @@ import { useGetScheduledTasksQuery } from '../task/taskApiSlice'
 import useAuth from '../../hooks/useAuth.js'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import "../../App.css"
-import { Alert, Badge, Calendar } from 'antd';
+import { Badge, Calendar } from 'antd';
 import { useState } from "react"
-
-
+import ViewTask from "../task/ViewTask";
+import { Modal } from 'antd';
 
 
 
@@ -48,17 +48,37 @@ const Schedule = () => {
       tasks.push(obj);
     }
 
-    console.log("load: ", tasks)
   }
 
 
   const [value, setValue] = useState();
   const [selectedValue, setSelectedValue] = useState();
+  const [toggleTaskModal, setToggleTaskModal] = useState(false);
+  const [taskModalData, setTaskModalData] = useState(null)
+
+  
+  let panelChange = false;
+  function ToggleTaskModal(task) {
+    setTaskModalData(task)
+    setToggleTaskModal(!toggleTaskModal)
+  }
+
   const onSelect = (newValue) => {
-    setValue(newValue);
-    setSelectedValue(newValue);
+    if(panelChange === false) {
+      let data = tasks.filter((task) => {
+        return newValue.$d.toISOString().split('T')[0] === task.data.scheduled_for
+      });
+        
+      ToggleTaskModal(data)
+      setValue(newValue);
+      setSelectedValue(newValue);
+    }
+    panelChange = false;
   };
+
+
   const onPanelChange = (newValue) => {
+    panelChange = true;
     setValue(newValue);
   };
   const navigate = useNavigate()
@@ -68,15 +88,7 @@ const Schedule = () => {
 
   if(tasks.length <= 0) return;
 
-  const monthCellRender = (value) => {
-    const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
-    ) : null;
-  };
+
   const dateCellRender = (value) => {
     // filter based on day scheduled
     const listData = tasks.filter((task) => {
@@ -84,6 +96,7 @@ const Schedule = () => {
     });
 
     return (
+      
       <ul className="events">
         {listData.map((item) => (
           <li key={item.content}>
@@ -94,19 +107,40 @@ const Schedule = () => {
     );
   };
   const cellRender = (current, info) => {
-    console.log(info)
     if (info.type === 'date') return dateCellRender(current);
-    if (info.type === 'month') return monthCellRender(current);
+    if (info.type === 'month') return null;
     return info.originNode;
   };
   return (
-    <div className='fotivity-container'>
-      <h1>Schedule</h1>
-      <button onClick={() => navigate("./task/create",  { state: { belongsToProject: false, belongsToGoal: false } })}>Create Task</button>
-      <Alert message={`You selected date: ${selectedValue?.format('YYYY-MM-DD')}`} />
-      <Calendar value={value} onSelect={onSelect} onPanelChange={onPanelChange} cellRender={cellRender} />;
+    <>
+    <h1>{panelChange.toString()}</h1>
+      {
+        toggleTaskModal ? <>
+            <Modal
+              open={toggleTaskModal}
+              onCancel={ToggleTaskModal}
+              cancelButtonProps={{ style: { display: 'none'} }}
+              okButtonProps={{ style: { display: 'none'} }}
+              width={"60%"}
+            >
+              <div>
+                {taskModalData.map((e) => {
+                  return <ViewTask item={e.data} />
+                })
+                  
+                }
+              </div>
 
-    </div>
+              <button onClick={() => navigate("./task/create",  { state: { belongsToProject: false, belongsToGoal: false, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
+            </Modal>
+        </> :   <div className='fotivity-container'>
+            <h1>Schedule</h1>
+            <button onClick={() => navigate("./task/create",  { state: { belongsToProject: false, belongsToGoal: false } })}>Create Task</button>
+          
+            <Calendar mode={"month"} value={value} onSelect={onSelect} onPanelChange={onPanelChange} cellRender={cellRender} />;
+          </div>
+      }
+    </>
   )
 }
 

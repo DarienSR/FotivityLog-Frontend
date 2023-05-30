@@ -45,7 +45,7 @@ export default function CreateProjectTask(props) {
 
   const [finishBy, setFinishBy] = useState('')
   const [desc, setDesc] = useState("")
-  const [scheduled_for, setScheduledFor] = useState(null)
+  const [scheduled_for, setScheduledFor] = useState(state.selectedDate || null)
   const [notes, setNotes] = useState([])
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState(0)

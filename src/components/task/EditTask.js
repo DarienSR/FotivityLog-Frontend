@@ -75,7 +75,7 @@ export default function EditTask(props) {
  <main className="form-container">
         <form style={styles.form} onSubmit={onUpdateTaskClicked}>
             <header>
-              <h1>Add Task</h1>
+              <h1>Edit Task</h1>
             </header>
 
             <label htmlFor="task">Task*</label>

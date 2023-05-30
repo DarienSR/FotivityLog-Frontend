@@ -154,3 +154,8 @@ body {
 .notes-month section {
   font-size: 28px;
 }
+
+/* antd over writes */
+.ant-picker-calendar-full .ant-radio-button-wrapper:last-child  {
+  visibility: hidden !important;
+}

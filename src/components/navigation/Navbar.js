@@ -71,7 +71,8 @@ let styles = {
     position: 'fixed',
     top: '0%',
     width: '100%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    zIndex: 100
   },
   navbarHeader: {
     display: 'flex',
