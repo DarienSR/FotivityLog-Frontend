@@ -5,10 +5,10 @@ import useAuth from '../../hooks/useAuth.js'
 import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../task/taskApiSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import Task from "../task/Task";
-
-export const ProjectBoard = () => {
+import EditProject from "../projects/EditProject";
+export const ProjectBoard = (props) => {
   const { user_id } = useAuth()
-  const { pathname } = useLocation()
+  const { pathname, state } = useLocation()
   let path =  pathname.split('/').slice(-1)[0]
 
   // Load data
@@ -36,13 +36,15 @@ let stages =  [
 ]
 
   const [categories, setCategories] = useState(null);
+  const [projectEdit, setProjectEdit] = useState(false)
 
   if(isSuccess) {
     const { ids } = tasks
     // loop through ids and get the tasks
     for(let i = 0; i < ids.length; i++) {
       let task = tasks.entities[ids[i]];
-      console.log(task)
+
+   
       // task.stage is an integer reflecting the stage index
       // push task into the stage it is associated with
       stages[task.stage].items.push(task)
@@ -62,27 +64,39 @@ let stages =  [
     setCategories(updatedCategories);
   }
 
+
+
+  function ToggleEditProject() {
+    setProjectEdit(!projectEdit)
+  }
+
   return (
     <>
-      <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
-        <Drop style={ styles.board } id="droppable" type="droppable-category">
-          {categories.map((category, categoryIndex) => {
-            return (
-              <div style={ styles.column }>
-                <h2 style={styles.columnTitle}>{category.name}</h2>
+    <div>
+      <button onClick={() => ToggleEditProject()}>Edit Project</button>
+    </div>
+    {
+      projectEdit ? <EditProject ToggleEdit={ToggleEditProject} project={props.projectInfo} /> :
+        <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
+          <Drop style={ styles.board } id="droppable" type="droppable-category">
+            {categories.map((category, categoryIndex) => {
+              return (
+                <div style={ styles.column }>
+                  <h2 style={styles.columnTitle}>{category.name}</h2>
 
-                <Drop key={category.id} id={category.id} type="droppable-item">
-                  {category.items.map((item, index) => {
-                    return (
-                      <Task index={index} item={item} />
-                    );
-                  })}
-                </Drop>
-              </div>
-            );
-          })}
-        </Drop>
-      </DragAndDrop>
+                  <Drop key={category.id} id={category.id} type="droppable-item">
+                    {category.items.map((item, index) => {
+                      return (
+                        <Task index={index} item={item} />
+                      );
+                    })}
+                  </Drop>
+                </div>
+              );
+            })}
+          </Drop>
+        </DragAndDrop>
+    }
     </>
   );
 };

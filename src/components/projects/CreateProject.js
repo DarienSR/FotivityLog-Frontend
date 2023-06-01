@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAddNewProjectMutation } from "./projectApiSlice"
 import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
-
+import SetTags from "../modular/SetTags";
 
 export default function CreateProject() {
   const { username, email, user_id} = useAuth()
@@ -23,12 +23,13 @@ export default function CreateProject() {
 
 
   const [name, setName] = useState('')
+  const [tags, setTags] = useState('')
 
 
   
   const onCreateProjectClicked = async (e) => {
     e.preventDefault()
-    await addNewProject({ user_id, name }).then(() => { navigate("/log/projects") })
+    await addNewProject({ user_id, name, tags}).then(() => { navigate("/log/projects") })
 }
 
   return <div className="fotivity-container">
@@ -47,6 +48,8 @@ export default function CreateProject() {
                 onChange={(e) => setName(e.target.value)}
                 required
             />
+
+          <SetTags Update={(e) => setTags(e)} />
 
           <button className="form__submit-button">Add</button>
         </form>

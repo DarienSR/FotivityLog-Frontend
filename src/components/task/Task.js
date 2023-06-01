@@ -16,8 +16,10 @@ export default function Task(props) {
   function UpdateTask() {
     setToggleTaskModal(!toggleTaskModal)
   }
-  console.log('prop', props)
-  let tagColor = props.item.tag?.color
+
+  let tagColors = props.item.tags?.map((tag) => {
+   return  <div style={{backgroundColor: tag.color || null, height: '1.5rem', width: '4rem', display: 'flex', alignSelf: 'flex-end'}} title={tag.name}></div>
+  })
 
   return (
     <>
@@ -33,7 +35,7 @@ export default function Task(props) {
         <div style={styles.info}>
           <span><PaperClipOutlined /> {props.item.links.length}</span>
           <span><BookOutlined /> {props.item.notes.length}</span>
-         <div style={{backgroundColor: tagColor || null, height: '1.5rem', width: '4rem', display: 'flex', alignSelf: 'flex-end'}} title={props.item.tag?.name}></div>
+          { tagColors }
         </div>
       </div>
       </Drag>

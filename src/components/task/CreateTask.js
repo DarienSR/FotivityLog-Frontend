@@ -5,6 +5,9 @@ import useAuth from '../../hooks/useAuth.js'
 import { Col, ColorPicker, Row, Space } from 'antd';
 import Dropdown from "../modular/Dropdown"
 import MultipleInput from "../modular/MultipleInput";
+import MultiSelect from "../modular/MultiSelect";
+import { useGetProjectByIdQuery} from "../projects/projectApiSlice";
+
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
   const [addNewTask, {
@@ -16,6 +19,15 @@ export default function CreateProjectTask(props) {
 
   const navigate = useNavigate()
   const { pathname, state } = useLocation()
+
+  let values = [{
+    value: 'hi',
+    label: 'bye'
+  },
+  {
+    value: 'd',
+    label: 'd'
+  }]
 
   // determine if task will be assigned to a project, goal, or schedule.
   let belongsToProject = state.belongsToProject
@@ -30,17 +42,36 @@ export default function CreateProjectTask(props) {
   
   let redirectPath = belongsToProject ? `/log/projects/${project_id}` : "/log/schedule/";
 
+  const {
+    data: project,
+    isLoading,
+    isSuccess,
+    error
+  } = useGetProjectByIdQuery(project_id, {
+    // pollingInterval: 60000, // refresh data every minute
+    refetchedOnFocus: true, // refresh data when window is focused again
+    refetchOnMountOrArgChange: true
+  })
+
+
   
   const [task, setTask] = useState('')
   const [value, setValue] = useState(0)
-  const [tagName, setTagName] = useState("")
+  const [tags, setTags] = useState([])
 
-  const [tagColor, setTagColor] = useState('#1677ff')
-  const [formatHex, setFormatHex] = useState('hex');
-  const hexString = useMemo(
-    () => (typeof tagColor === 'string' ? tagColor : tagColor.toHexString()),
-    [tagColor],
-  );
+  let d ;
+  if(isSuccess) {
+
+    d = project.entities[project.ids[0]].tags.map((tag) => {
+      return {
+        value: tag.name,
+        label: tag.name
+      }
+    }) 
+
+    console.log("--.", d)
+
+  }
 
 
   const [finishBy, setFinishBy] = useState('')
@@ -55,8 +86,24 @@ export default function CreateProjectTask(props) {
     // prevent value and stage from being less than 0 
 
     e.preventDefault()
-    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, belongsToGoal, belongsToProject, finishBy, tag: { color: hexString, name: tagName }, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
+    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
+
+
+  function UpdateTags(tags) {
+    
+    let selectedTags = tags.map((tag) => {
+      return project.entities[project.ids[0]].tags.find(element => {
+        if(element.name === tag.name)
+          console.log(element, tag)
+          return element
+      })
+    })
+    console.log("s: ",selectedTags)
+    setTags(selectedTags)
+    
+
+  }
 
   return <div className="fotivity-container">
     <main className="form-container">
@@ -123,26 +170,8 @@ export default function CreateProjectTask(props) {
 
             <MultipleInput label={"Notes"} Update={(e) => setNotes(e)} />
 
-            <div style={styles.multipleInputs}>
-              <label>Tag Name</label>
-              <input
-                  className="form__input"
-                  type="text"
-                  id="desc"
-                  value={tagName}
-                  onChange={(e) => setTagName(e.target.value)}
-                />
-
-              <div>
-                <label>Tag Color</label>
-                <ColorPicker
-                  format={formatHex}
-                  value={tagColor}
-                  onChange={setTagColor}
-                  onFormatChange={setFormatHex}
-                />
-              </div>
-            </div>
+            {console.log("upodated tags", tags)}
+            <MultiSelect values={d} label={"Tags"} Update={(e) => UpdateTags(e)} />
               
             <label htmlFor="finishBy">Finish By</label>
             <input

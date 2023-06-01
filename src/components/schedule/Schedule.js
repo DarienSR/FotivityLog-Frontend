@@ -113,7 +113,6 @@ const Schedule = () => {
   };
   return (
     <>
-    <h1>{panelChange.toString()}</h1>
       {
         toggleTaskModal ? <>
             <Modal

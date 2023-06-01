@@ -28,7 +28,7 @@ export default function ProjectList() {
     const { ids } = tasks;
     projects = ids.map((id) => {
       return <div>
-          <button onClick={() => navigate(`/log/projects/${tasks.entities[id].id}`)}>
+          <button onClick={() => navigate(`/log/projects/${tasks.entities[id].id}`, {state: { project: tasks.entities[id] }})}>
             {tasks.entities[id].name}
           </button>
         </div>

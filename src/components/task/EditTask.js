@@ -5,6 +5,8 @@ import { Col, ColorPicker, Row, Space } from 'antd';
 import useAuth from '../../hooks/useAuth.js'
 import Dropdown from "../modular/Dropdown"
 import MultipleInput from "../modular/MultipleInput";
+import MultiSelect from "../modular/MultiSelect";
+import { useGetProjectByIdQuery} from "../projects/projectApiSlice";
 export default function EditTask(props) {
   const { user_id } = useAuth()
 
@@ -15,27 +17,47 @@ export default function EditTask(props) {
   let belongsToProject = props.state.belongsToProject
   let belongsToGoal = props.state.belongsToGoal 
   
-  let project_id = null;
+  let project_id = props.item.project_id;
   let options;
   if(belongsToProject) {
     options = ["Under Consideration", "Future", "Queue", "Under Development", "Testing", "Finished"]
   }
   
+
+    const {
+    data: project,
+    isLoading,
+    isSuccess,
+    error
+  } = useGetProjectByIdQuery(project_id, {
+    // pollingInterval: 60000, // refresh data every minute
+    refetchedOnFocus: true, // refresh data when window is focused again
+    refetchOnMountOrArgChange: true
+  })
+
   const [task, setTask] = useState(props.item.task)
   const [value, setValue] = useState(props.item.value)
-  const [tagName, setTagName] = useState(props.item.tag?.name)
 
-  const [tagColor, setTagColor] = useState(props.item.tag?.color)
-  const [formatHex, setFormatHex] = useState('hex');
-  const hexString = useMemo(
-    () => (typeof tagColor === 'string' ? tagColor : tagColor.toHexString()),
-    [tagColor],
-  );
+
+  let d ;
+  if(isSuccess) {
+
+    d = project.entities[project.ids[0]].tags.map((tag) => {
+      return {
+        value: tag.name,
+        label: tag.name
+      }
+    }) 
+
+    console.log("--.", d)
+
+  }
 
 
   const [finishBy, setFinishBy] = useState(props.item.finishBy)
   const [desc, setDesc] = useState(props.item.desc)
   const [notes, setNotes] = useState(props.item.notes)
+  const [tags, setTags] = useState(props.item.tags)
   const [links, setLinks] = useState(props.item.links)
   const [stage, setStage] = useState(props.item.stage)
   const [reoccursOn, setReoccursOn] = useState([])
@@ -50,7 +72,7 @@ export default function EditTask(props) {
 
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault()
-    await updateTask({user_id, task, id: props.item.id, value, tag: {name: tagName, color: hexString}, finishBy, desc, notes, links, stage })
+    await updateTask({user_id, task, id: props.item.id, value, tags, finishBy, desc, notes, links, stage })
     navigate(0)
   }
 
@@ -62,6 +84,21 @@ export default function EditTask(props) {
 
   function DeleteTaskConfirmation() {
     setDeleteConfirmation(!deleteConfirmation)
+  }
+
+  function UpdateTags(tags) {
+    
+    let selectedTags = tags.map((tag) => {
+      return project.entities[project.ids[0]].tags.find(element => {
+        if(element.name === tag.name)
+          console.log(element, tag)
+          return element
+      })
+    })
+    console.log("s: ",selectedTags)
+    setTags(selectedTags)
+    
+
   }
 
   return (
@@ -124,26 +161,7 @@ export default function EditTask(props) {
 
             <MultipleInput values={notes} label={"Notes"} Update={(e) => setNotes(e)} />
 
-            <div style={styles.multipleInputs}>
-              <label>Tag Name {tagName || ""}</label>
-              <input
-                  className="form__input"
-                  type="text"
-                  id="desc"
-                  value={tagName}
-                  onChange={(e) => setTagName(e.target.value)}
-                />
-
-              <div>
-                <label>Tag Color</label>
-                <ColorPicker
-                  format={formatHex}
-                  value={tagColor}
-                  onChange={setTagColor}
-                  onFormatChange={setFormatHex}
-                />
-              </div>
-            </div>
+           <MultiSelect values={d} label={"Tags"} Update={(e) => UpdateTags(e)} />
               
             <label htmlFor="finishBy">Finish By</label>
             <input

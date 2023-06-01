@@ -36,7 +36,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
       }
     }),
     getProjectById: builder.query({
-      query: (id) => ({url: `/projects/${id}`}),
+      query: (id) => ({url: `/projects/project/${id}`}),
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError
       },
@@ -60,7 +60,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
    
     addNewProject: builder.mutation({
       query: projectData => ({
-        url: `/projects/${projectData.userID}`,
+        url: `/projects/project/${projectData.user_id}`,
         method: 'POST',
         body: {
           ...projectData,
@@ -72,7 +72,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
     }),
     updateProject: builder.mutation({
       query: projectData => ({
-        url: `/projects/${projectData.userID}`,
+        url: `/projects/project/${projectData.id}`,
         method: 'PUT',
         body: {
           ...projectData,
@@ -84,7 +84,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
     }),
     deleteProject: builder.mutation({
       query: id => ({
-        url: `/projects/${id}`,
+        url: `/projects/project/${id}`,
         method: 'DELETE',
         body: { id }
       }),
