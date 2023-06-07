@@ -5,13 +5,11 @@ import { useState } from 'react';
 
 export default function MutliSelect(props) {
   const [size, setSize] = useState('middle');
-
+  const [tags, setTags] = useState(null)
   console.log("multi", props)
 
   const handleChange = (value) => {
-
-    
-
+    console.log("vvv", value)
     props.Update(value)
   };
   return (
@@ -26,10 +24,9 @@ export default function MutliSelect(props) {
           style={{
             width: '100%',
           }}
+          defaultValue={props.defaultValue}
           options={props.values}
         />
-
-
     </>
   );
 };

@@ -10,11 +10,6 @@ import { Modal } from 'antd';
 
 
 
-const getMonthData = (value) => {
-  if (value.month() === 8) {
-    return 1394;
-  }
-};
 
 const Schedule = () => {
   const { user_id } = useAuth()
@@ -40,7 +35,7 @@ const Schedule = () => {
     for(let i = 0; i < ids.length; i++) {
       let obj = {
         id: data.entities[ids[i]].id,
-        type: data.entities[ids[i]].tag,
+        type: data.entities[ids[i]].tag || [],
         content: data.entities[ids[i]].task,
         data: data.entities[ids[i]]
       }
@@ -88,6 +83,7 @@ const Schedule = () => {
 
   if(tasks.length <= 0) return;
 
+  console.log("Scheduled task: ", tasks)
 
   const dateCellRender = (value) => {
     // filter based on day scheduled
@@ -95,8 +91,9 @@ const Schedule = () => {
       return value.$d.toISOString().split('T')[0] === task.data.scheduled_for
     });
 
+    console.log("Data to render: ", listData, value.$d.toISOString().split('T')[0])
+
     return (
-      
       <ul className="events">
         {listData.map((item) => (
           <li key={item.content}>
@@ -106,10 +103,9 @@ const Schedule = () => {
       </ul>
     );
   };
+
   const cellRender = (current, info) => {
-    if (info.type === 'date') return dateCellRender(current);
-    if (info.type === 'month') return null;
-    return info.originNode;
+    return dateCellRender(current);
   };
   return (
     <>
@@ -124,17 +120,16 @@ const Schedule = () => {
             >
               <div>
                 {taskModalData.map((e) => {
-                  return <ViewTask item={e.data} />
+                  return <ViewTask belongsToGoal={false} belongsToProject={false} item={e.data} />
                 })
-                  
                 }
               </div>
 
-              <button onClick={() => navigate("./task/create",  { state: { belongsToProject: false, belongsToGoal: false, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
+              <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
             </Modal>
         </> :   <div className='fotivity-container'>
             <h1>Schedule</h1>
-            <button onClick={() => navigate("./task/create",  { state: { belongsToProject: false, belongsToGoal: false } })}>Create Task</button>
+            <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null } })}>Create Task</button>
           
             <Calendar mode={"month"} value={value} onSelect={onSelect} onPanelChange={onPanelChange} cellRender={cellRender} />;
           </div>

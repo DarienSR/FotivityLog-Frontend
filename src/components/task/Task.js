@@ -18,7 +18,7 @@ export default function Task(props) {
   }
 
   let tagColors = props.item.tags?.map((tag) => {
-   return  <div style={{backgroundColor: tag.color || null, height: '1.5rem', width: '4rem', display: 'flex', alignSelf: 'flex-end'}} title={tag.name}></div>
+   return  <div style={{backgroundColor: tag.color || null, maxHeight: '1.5rem', minWidth: '4rem', display: 'flex', justifyContent: 'center', fontSize: '0.8rem', marginLeft: '0.35rem'}} title={tag.name}><p style={{ marginTop: '0.25rem' }}>{tag.name.toUpperCase()}</p></div>
   })
 
   return (
@@ -31,11 +31,13 @@ export default function Task(props) {
         value={props.item.value}
       >
       <div style={styles.task} onClick={() => ToggleTaskModal(props.item)}>
+        <div style={{ display: 'flex', marginBottom: '0.2rem' }}>
+          { tagColors }
+        </div>
         <p style={{margin: 0, height: '3rem', fontSize: '1.1rem'}}> {props.item.task} </p>
         <div style={styles.info}>
           <span><PaperClipOutlined /> {props.item.links.length}</span>
           <span><BookOutlined /> {props.item.notes.length}</span>
-          { tagColors }
         </div>
       </div>
       </Drag>
@@ -49,7 +51,7 @@ export default function Task(props) {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
-              <ViewTask item={taskModalData} />
+              <ViewTask belongsToProject={true} item={taskModalData} />
             </Modal>
         </> : null
       }

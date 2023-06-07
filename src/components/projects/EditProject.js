@@ -16,7 +16,7 @@ export default function EditProject(props) {
 
 
 
-  console.log("--->", props.project)
+  console.log("--->", props)
   const [name, setName] = useState(props.project.name)
   const [tags, setTags] = useState(props.project.tags || [])
   console.log(tags)

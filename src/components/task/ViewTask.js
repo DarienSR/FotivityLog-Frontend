@@ -60,10 +60,11 @@ export default function ViewTask(props) {
 
   </div>
   <hr />
+  <button onClick={() => navigate(`/log/sessions/new/`, {state: { task: props.item }})}>Go to Session</button>
   <button onClick={() => setToggleEdit(!toggleEdit)}>Edit Task</button>
 </div>
 
-  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.item} state={{belongsToProject: true, belongsToGoal: false}} /> 
+  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.item} state={{belongsToProject: props.belongsToProject, belongsToGoal: props.belongsToGoal}} /> 
   
 }
 

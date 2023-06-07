@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth.js'
 import { format } from "date-fns";
 
 
-const NewSession = ({ users }) => {
+const NewSession = () => {
 
     const { username, email, user_id} = useAuth()
 
@@ -27,10 +27,13 @@ const NewSession = ({ users }) => {
         errorUpdate
     }] = useUpdateSessionMutation()
 
+    
+ 
     const navigate = useNavigate()
-    const { pathname } = useLocation()
-    const [topic, setTopic] = useState('')
-    const [desc, setDescription] = useState('')
+    const { pathname, state } = useLocation()
+    const [topic, setTopic] = useState(state?.task.task || '')
+    const [desc, setDescription] = useState(state?.task.desc || '')
+    const [linkToTask, setLinkToTask] = useState(state?.task.id || null)
     const [location, setLocation] = useState('')
     const [activeSession, setActiveSession] = useState(false);
     
@@ -63,7 +66,7 @@ const NewSession = ({ users }) => {
     // Update Session when user is finished.
     const onSaveSessionClicked = async (e) => {
         e.preventDefault()
-        await updateSession({ id: data.ids[0], user_id, topic, desc, location, social, focused, distracted, deep_work, start_time: data.entities[data.ids[0]].start_time, end_time: getCurrentTime() })  
+        await updateSession({ id: data.ids[0], user_id, topic, desc, location, social, focused, distracted, deep_work, start_time: data.entities[data.ids[0]].start_time, end_time: getCurrentTime(), linkToTask })  
         refetch() // force re-fetches the data, which checks for an active sessions. Find nothing because we just saved the new session.
         navigate("/log/sessions")
     }
@@ -81,6 +84,7 @@ const NewSession = ({ users }) => {
         </form>
     </div>
     }
+
 
     const content = (
         <div className="fotivity-container">        

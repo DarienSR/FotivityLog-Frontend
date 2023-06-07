@@ -20,14 +20,6 @@ export default function CreateProjectTask(props) {
   const navigate = useNavigate()
   const { pathname, state } = useLocation()
 
-  let values = [{
-    value: 'hi',
-    label: 'bye'
-  },
-  {
-    value: 'd',
-    label: 'd'
-  }]
 
   // determine if task will be assigned to a project, goal, or schedule.
   let belongsToProject = state.belongsToProject
@@ -59,17 +51,14 @@ export default function CreateProjectTask(props) {
   const [value, setValue] = useState(0)
   const [tags, setTags] = useState([])
 
-  let d ;
+  let formattedTags ;
   if(isSuccess) {
-
-    d = project.entities[project.ids[0]].tags.map((tag) => {
+    formattedTags = project.entities[project.ids[0]].tags.map((tag) => {
       return {
         value: tag.name,
         label: tag.name
       }
     }) 
-
-    console.log("--.", d)
 
   }
 
@@ -170,8 +159,7 @@ export default function CreateProjectTask(props) {
 
             <MultipleInput label={"Notes"} Update={(e) => setNotes(e)} />
 
-            {console.log("upodated tags", tags)}
-            <MultiSelect values={d} label={"Tags"} Update={(e) => UpdateTags(e)} />
+            <MultiSelect values={formattedTags} label={"Tags"} Update={(e) => UpdateTags(e)} />
               
             <label htmlFor="finishBy">Finish By</label>
             <input

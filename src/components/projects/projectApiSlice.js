@@ -60,7 +60,7 @@ export const projectApiSlice = apiSlice.injectEndpoints({
    
     addNewProject: builder.mutation({
       query: projectData => ({
-        url: `/projects/project/${projectData.user_id}`,
+        url: `/projects/${projectData.user_id}`,
         method: 'POST',
         body: {
           ...projectData,
