@@ -7,7 +7,7 @@ import Dropdown from "../modular/Dropdown"
 import MultipleInput from "../modular/MultipleInput";
 import MultiSelect from "../modular/MultiSelect";
 import { useGetProjectByIdQuery} from "../projects/projectApiSlice";
-
+import { TimePicker } from 'antd';
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
   const [addNewTask, {
@@ -70,28 +70,31 @@ export default function CreateProjectTask(props) {
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState(0)
   const [reoccursOn, setReoccursOn] = useState([])
-  
+  const [timeStart, setTimeStart] = useState()
+  const [timeFinish, setTimeFinish] = useState()
   const onCreateTaskClicked = async (e) => {
     // prevent value and stage from being less than 0 
 
     e.preventDefault()
-    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
+    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, timeStart, timeFinish, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
 
+  const onTimeStartChange = (time, timeString) => {
+    setTimeStart(timeString)
+  };
+
+  const onTimeFinishChange = (time, timeString) => {
+    alert()
+    setTimeFinish(timeString)
+  };
 
   function UpdateTags(tags) {
-    
-    let selectedTags = tags.map((tag) => {
-      return project.entities[project.ids[0]].tags.find(element => {
-        if(element.name === tag.name)
-          console.log(element, tag)
-          return element
-      })
-    })
-    console.log("s: ",selectedTags)
+    let selectedTags = [];
+    for(let i = 0; i < tags.length; i++) {
+      let index = project.entities[project.ids[0]].tags.findIndex(tag => tag.name === tags[i])
+      selectedTags.push(project.entities[project.ids[0]].tags[index])
+    }
     setTags(selectedTags)
-    
-
   }
 
   return <div className="fotivity-container">
@@ -130,6 +133,8 @@ export default function CreateProjectTask(props) {
                     value={scheduled_for}
                     onChange={(e) => setScheduledFor(e.target.value)}
                 /> 
+                <TimePicker use12Hours format="h:mm a" onChange={onTimeStartChange} />
+                <TimePicker use12Hours format="h:mm a" onChange={onTimeFinishChange} />
               </> : null }
 
             <div style={styles.multipleInputs}>

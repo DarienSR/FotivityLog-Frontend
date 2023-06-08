@@ -10,7 +10,7 @@ const NewSession = () => {
     const { username, email, user_id} = useAuth()
 
     let { data, refetch, isLoading, isSuccess, error } = useCheckForActiveSessionQuery(user_id, {
-         count: 5 ,
+        count: 5 ,
     })
  
     const [addNewSession, {
@@ -31,8 +31,8 @@ const NewSession = () => {
  
     const navigate = useNavigate()
     const { pathname, state } = useLocation()
-    const [topic, setTopic] = useState(state?.task.task || '')
-    const [desc, setDescription] = useState(state?.task.desc || '')
+    const [topic, setTopic] = useState(state?.project.name || '')
+    const [desc, setDescription] = useState(state?.task ? `${state?.task.task} - ${state?.task.desc}` : '')
     const [linkToTask, setLinkToTask] = useState(state?.task.id || null)
     const [location, setLocation] = useState('')
     const [activeSession, setActiveSession] = useState(false);
@@ -45,7 +45,7 @@ const NewSession = () => {
     const [deep_work, setDeepWork] = useState(false)
     const [social, setSocial] = useState(false)
     const [distracted, setDistracted] = useState(false)
-
+    const [currentSession, setCurrentSession] = useState(null)
     const onFocusedChanged = e => setFocused(e.target.checked)
     const onDistractedChanged = e => setDistracted(e.target.checked)
     const onSocialChanged = e => setSocial(e.target.checked)
@@ -76,6 +76,7 @@ const NewSession = () => {
     if(isLoading) {
         display = <p>Loading....</p>
     } else if (isSuccess && data.ids.length >= 1 && !activeSession) {
+        setCurrentSession(data.entities[data.ids[0]])
         setActiveSession(true)
     } else {
         display = <div className="form-container">
@@ -92,14 +93,14 @@ const NewSession = () => {
                 <p style={pathname === '/log/sessions' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions">View Sessions</Link></p>
                 <p style={pathname === '/log/sessions/new' ? {...styles.link, ...styles.active} : {...styles.link}}><Link style={{textDecoration: 'none',color: "black"}} to="/log/sessions/new">Add Session</Link></p>
             </div>
-
             <main className="form-container">
                 { activeSession ? 
                 <form className="form" onSubmit={onSaveSessionClicked}>
                     <header>
                         <h1>Add Session</h1>
                     </header>
-
+        
+                    <p>Started at: {currentSession?.start_time}</p>
                     <label htmlFor="topic">Topic</label>
                     <input
                         className="form__input"

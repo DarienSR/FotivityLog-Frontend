@@ -1,11 +1,14 @@
+import React, { useState } from "react";
 import { ProjectBoard } from "../dnd/ProjectBoard"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useGetProjectByIdQuery} from "./projectApiSlice";
+import EditProject from "../projects/EditProject";
 export default function Project() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   let project_id = pathname.split('/').splice(-1)[0]
-
+  const [projectEdit, setProjectEdit] = useState(false)
+  const [projectInfo, setProjectInfo] = useState(null)
   const {
     data: project,
     isLoading,
@@ -18,18 +21,22 @@ export default function Project() {
     refetchOnMountOrArgChange: true
   })
 
-  let projectInfo;
-  if(isSuccess) {
-    projectInfo = project.entities[project.ids[0]]
-    console.log("PROJECT DETAILS", project.entities[project.ids[0]])
+
+  if(isSuccess && projectInfo === null) {
+    setProjectInfo(project.entities[project.ids[0]])
   }
+
+  function ToggleEditProject() {
+    setProjectEdit(!projectEdit)
+  }
+
+
   return <>
-
-
-
+    <button onClick={() => ToggleEditProject()}>{projectEdit ? 'Back' : 'Edit Project'}</button>
+    {projectEdit ? <EditProject ToggleEdit={ToggleEditProject} project={projectInfo} /> :
     <div>
       <button onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false  } })}>New Task</button>
-    </div>
-    <ProjectBoard projectInfo={projectInfo} />
+      <ProjectBoard project={projectInfo} />
+    </div>}
   </>
 }

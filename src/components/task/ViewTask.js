@@ -57,10 +57,12 @@ export default function ViewTask(props) {
         </p>
       }) }
     </div>
-
+    {props.item.timeStart}
+    -
+    {props.item.timeFinish}
   </div>
   <hr />
-  <button onClick={() => navigate(`/log/sessions/new/`, {state: { task: props.item }})}>Go to Session</button>
+  <button onClick={() => navigate(`/log/sessions/new/`, {state: { project: props.project, task: props.item }})}>Go to Session</button>
   <button onClick={() => setToggleEdit(!toggleEdit)}>Edit Task</button>
 </div>
 

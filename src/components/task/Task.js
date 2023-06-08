@@ -51,7 +51,7 @@ export default function Task(props) {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
-              <ViewTask belongsToProject={true} item={taskModalData} />
+              <ViewTask project={props.project} belongsToProject={true} item={taskModalData} />
             </Modal>
         </> : null
       }

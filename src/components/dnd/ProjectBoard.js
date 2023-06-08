@@ -5,7 +5,6 @@ import useAuth from '../../hooks/useAuth.js'
 import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../task/taskApiSlice";
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import Task from "../task/Task";
-import EditProject from "../projects/EditProject";
 export const ProjectBoard = (props) => {
   const { user_id } = useAuth()
   const { pathname, state } = useLocation()
@@ -23,6 +22,8 @@ export const ProjectBoard = (props) => {
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
+
+
   const [updateTask] = useUpdateTaskMutation()
 
 // Define the default stages
@@ -36,7 +37,6 @@ let stages =  [
 ]
 
   const [categories, setCategories] = useState(null);
-  const [projectEdit, setProjectEdit] = useState(false)
 
   if(isSuccess) {
     const { ids } = tasks
@@ -49,6 +49,7 @@ let stages =  [
       // push task into the stage it is associated with
       stages[task.stage].items.push(task)
     }
+
 
     // prevent infinite re-render by only setting stages once (initial load)
     if(categories === null)
@@ -64,19 +65,9 @@ let stages =  [
     setCategories(updatedCategories);
   }
 
-
-
-  function ToggleEditProject() {
-    setProjectEdit(!projectEdit)
-  }
-
   return (
     <>
-    <div>
-      <button onClick={() => ToggleEditProject()}>Edit Project</button>
-    </div>
     {
-      projectEdit ? <EditProject ToggleEdit={ToggleEditProject} project={props.projectInfo} /> :
         <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
           <Drop style={ styles.board } id="droppable" type="droppable-category">
             {categories.map((category, categoryIndex) => {
@@ -87,7 +78,7 @@ let stages =  [
                   <Drop key={category.id} id={category.id} type="droppable-item">
                     {category.items.map((item, index) => {
                       return (
-                        <Task index={index} item={item} />
+                        <Task project={props.project} index={index} item={item} />
                       );
                     })}
                   </Drop>
