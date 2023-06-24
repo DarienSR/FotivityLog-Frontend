@@ -6,7 +6,6 @@ import { format } from "date-fns";
 
 
 const NewSession = () => {
-
     const { username, email, user_id} = useAuth()
 
     let { data, refetch, isLoading, isSuccess, error } = useCheckForActiveSessionQuery(user_id, {
@@ -27,8 +26,6 @@ const NewSession = () => {
         errorUpdate
     }] = useUpdateSessionMutation()
 
-    
- 
     const navigate = useNavigate()
     const { pathname, state } = useLocation()
     const [topic, setTopic] = useState(state?.project.name || '')
@@ -71,8 +68,6 @@ const NewSession = () => {
         navigate("/log/sessions")
     }
 
-
-
     if(isLoading) {
         display = <p>Loading....</p>
     } else if (isSuccess && data.ids.length >= 1 && !activeSession) {
@@ -85,7 +80,6 @@ const NewSession = () => {
         </form>
     </div>
     }
-
 
     const content = (
         <div className="fotivity-container">        
@@ -152,20 +146,21 @@ const NewSession = () => {
 
     return content
 }
+
 let styles = {
     start: {
         alignSelf: 'center',
         marginBottom: '100%',
     },
     link: {
-      alignSelf: 'center',
-      fontSize: '1rem',
-      textDecoration: 'none',
-      textUnderline: 'none'
+        alignSelf: 'center',
+        fontSize: '1rem',
+        textDecoration: 'none',
+        textUnderline: 'none'
     },
     active: {
-      borderBottom: "2px solid black",
+        borderBottom: "2px solid black",
     }
-  }
+}
   
 export default NewSession

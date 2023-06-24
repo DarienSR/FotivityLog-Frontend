@@ -3,10 +3,11 @@ import { useGetScheduledTasksQuery } from '../task/taskApiSlice'
 import useAuth from '../../hooks/useAuth.js'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import "../../App.css"
-import { Badge, Calendar } from 'antd';
+import { Badge, Calendar, Timeline, Radio } from 'antd';
 import { useState } from "react"
 import ViewTask from "../task/ViewTask";
 import { Modal } from 'antd';
+import { genComponentStyleHook } from 'antd/es/theme/internal'
 
 
 
@@ -44,6 +45,10 @@ const Schedule = () => {
     }
 
   }
+  const [mode, setMode] = useState('left');
+  const onChange = (e) => {
+    setMode(e.target.value);
+  };
 
 
   const [value, setValue] = useState();
@@ -51,11 +56,19 @@ const Schedule = () => {
   const [toggleTaskModal, setToggleTaskModal] = useState(false);
   const [taskModalData, setTaskModalData] = useState(null)
 
-  
+  const [showSelectedTask, setShowSelectedTask] = useState(false);
+  const [selectedTaskData, setSelectedTaskData] = useState();
+
   let panelChange = false;
-  function ToggleTaskModal(task) {
-    setTaskModalData(task)
+  function ToggleTaskModal(data) {
+    setTaskModalData(data)
     setToggleTaskModal(!toggleTaskModal)
+  }
+
+
+  function ShowSelectedTask(e) {
+    setShowSelectedTask(!showSelectedTask)
+    setSelectedTaskData(e)
   }
 
   const onSelect = (newValue) => {
@@ -64,7 +77,23 @@ const Schedule = () => {
         return newValue.$d.toISOString().split('T')[0] === task.data.scheduled_for
       });
         
-      ToggleTaskModal(data)
+
+      
+      let timelineItems = []
+      let unassignedItems = []
+      data.forEach((task) => {
+        let timelineRender  = <button onClick={() => ShowSelectedTask(task.data)}>
+          { task.data.task }
+        </button>
+
+
+        if(task.data.timeStart === undefined)
+          unassignedItems.push(task.data)
+        else
+          timelineItems.push({ color: task.data.completed ? 'green' : 'red', label: `${task.data.timeStart} - ${task.data.timeFinish}`, children: timelineRender, data: task.data })
+      })
+
+      ToggleTaskModal({ timelineItems, unassignedItems })
       setValue(newValue);
       setSelectedValue(newValue);
     }
@@ -83,7 +112,6 @@ const Schedule = () => {
 
   if(tasks.length <= 0) return;
 
-  console.log("Scheduled task: ", tasks)
 
   const dateCellRender = (value) => {
     // filter based on day scheduled
@@ -91,13 +119,11 @@ const Schedule = () => {
       return value.$d.toISOString().split('T')[0] === task.data.scheduled_for
     });
 
-    console.log("Data to render: ", listData, value.$d.toISOString().split('T')[0])
-
     return (
       <ul className="events">
         {listData.map((item) => (
           <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+            <Badge status={item.data.completed ? 'success' : 'processing'} text={item.content} />
           </li>
         ))}
       </ul>
@@ -118,14 +144,21 @@ const Schedule = () => {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
+                <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
               <div>
-                {taskModalData.map((e) => {
-                  return <ViewTask belongsToGoal={false} belongsToProject={false} item={e.data} />
-                })
+                <Timeline
+                  mode="left"
+                  items={taskModalData?.timelineItems}
+                />
+
+                {
+                  taskModalData?.unassignedItems.map((task) => {
+                    return <p onClick={() => ShowSelectedTask(task)}>{task.task}</p>
+                  })
                 }
               </div>
 
-              <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
+              { showSelectedTask ? <ViewTask belongsToGoal={false} belongsToProject={false} item={selectedTaskData} /> : null }
             </Modal>
         </> :   <div className='fotivity-container'>
             <h1>Schedule</h1>

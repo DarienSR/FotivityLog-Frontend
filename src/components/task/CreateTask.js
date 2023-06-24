@@ -84,7 +84,6 @@ export default function CreateProjectTask(props) {
   };
 
   const onTimeFinishChange = (time, timeString) => {
-    alert()
     setTimeFinish(timeString)
   };
 

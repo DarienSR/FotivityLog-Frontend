@@ -58,7 +58,9 @@ export default function SetTags(props) {
     <span style={styles.itemContainer}>
     {
       arr.map((item, index) => {
-        return <p style={styles.item}>{ item.name } - { item.color } <span onClick={() => { RemoveElement(index) }} style={styles.delete}>X</span></p>
+        return <p style={styles.item}>{ item.name } -  <ColorPicker
+        value={item.color}
+      /> <span onClick={() => { RemoveElement(index) }} style={styles.delete}>X</span></p>
         })
       }
     </span>
