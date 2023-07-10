@@ -96,10 +96,12 @@ let styles = {
   board: {
     display: 'flex',
     minHeight: '80vh',
+    backgroundColor: '#FFFFFF',
+    color: '#080E01'
   },
   column: {
-    backgroundColor: '#FEF7F7',
-    boxShadow: '1px 2px 5px 1px #938585',
+    backgroundColor: '#FFFFFF',
+    boxShadow: '1px 2px 5px 1px #00000041',
     margin: "1rem",
     width: "16.666%",
     padding: "1rem"

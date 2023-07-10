@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useUpdateProjectMutation } from "./projectApiSlice"
 import useAuth from '../../hooks/useAuth.js'
-import { format } from "date-fns";
+import "../../App.css"
 import SetTags from "../modular/SetTags";
 
 export default function EditProject(props) {
@@ -47,7 +47,7 @@ export default function EditProject(props) {
 
           <SetTags values={tags} Update={(e) => setTags(e)} />
 
-          <button className="form__submit-button">Update Project</button>
+          <button>Update Project</button>
         </form>
     </main>
   </div>

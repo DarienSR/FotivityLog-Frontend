@@ -7,9 +7,8 @@ import { Badge, Calendar, Timeline, Radio } from 'antd';
 import { useState } from "react"
 import ViewTask from "../task/ViewTask";
 import { Modal } from 'antd';
-import { genComponentStyleHook } from 'antd/es/theme/internal'
-
-
+import "../../App.css"
+import { CloseCircleFilled, CheckCircleFilled  } from '@ant-design/icons';
 
 
 const Schedule = () => {
@@ -71,6 +70,10 @@ const Schedule = () => {
     setSelectedTaskData(e)
   }
 
+  function ToggleTaskCompleted(task) {
+    console.log(task)
+  }
+
   const onSelect = (newValue) => {
     if(panelChange === false) {
       let data = tasks.filter((task) => {
@@ -78,19 +81,27 @@ const Schedule = () => {
       });
         
 
-      
+
       let timelineItems = []
       let unassignedItems = []
       data.forEach((task) => {
-        let timelineRender  = <button onClick={() => ShowSelectedTask(task.data)}>
-          { task.data.task }
-        </button>
+        // container for item on timeline
+        let timelineRender  = <div onClick={() => ShowSelectedTask(task.data)} className='task-schedule'>
+          <p>{ task.data.task }</p>
+        </div>
+        
+        let timeRangeRender = <p style={{ fontWeight: 'bold', marginRight: '1rem' }}>
+          {task.data.timeStart} - {task.data.timeFinish}
+        </p>
 
+        let Completed = <CheckCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem"}} />
+
+        let UnCompleted = <CloseCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem"}} />
 
         if(task.data.timeStart === undefined)
           unassignedItems.push(task.data)
         else
-          timelineItems.push({ color: task.data.completed ? 'green' : 'red', label: `${task.data.timeStart} - ${task.data.timeFinish}`, children: timelineRender, data: task.data })
+          timelineItems.push({ color: task.data.completed ? 'green' : 'red', label: timeRangeRender, children: timelineRender, dot: task.data.completed ? Completed : UnCompleted, data: task.data })
       })
 
       ToggleTaskModal({ timelineItems, unassignedItems })
@@ -130,6 +141,26 @@ const Schedule = () => {
     );
   };
 
+
+  let scheduleTaskView = <div>
+    <button className="button" onClick={ () => ShowSelectedTask(null) }>Back</button>
+    <ViewTask belongsToGoal={false} belongsToProject={false} item={selectedTaskData} />
+  </div>
+
+  const TimelineRender = <div>
+    <Timeline
+      mode="left"
+      items={taskModalData?.timelineItems}
+    />
+
+    { taskModalData?.unassignedItems.map((task) => {
+      return <p onClick={() => ShowSelectedTask(task)}>{task.task}</p>
+      })
+    }
+    <button className="button" onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
+  </div>
+  
+
   const cellRender = (current, info) => {
     return dateCellRender(current);
   };
@@ -144,21 +175,8 @@ const Schedule = () => {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
-                <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null, selectedDate: selectedValue?.format('YYYY-MM-DD')  } })}>Create Task</button>
-              <div>
-                <Timeline
-                  mode="left"
-                  items={taskModalData?.timelineItems}
-                />
 
-                {
-                  taskModalData?.unassignedItems.map((task) => {
-                    return <p onClick={() => ShowSelectedTask(task)}>{task.task}</p>
-                  })
-                }
-              </div>
-
-              { showSelectedTask ? <ViewTask belongsToGoal={false} belongsToProject={false} item={selectedTaskData} /> : null }
+            { showSelectedTask  ? scheduleTaskView  : TimelineRender }
             </Modal>
         </> :   <div className='fotivity-container'>
             <h1>Schedule</h1>

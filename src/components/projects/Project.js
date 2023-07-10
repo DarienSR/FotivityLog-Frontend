@@ -3,6 +3,7 @@ import { ProjectBoard } from "../dnd/ProjectBoard"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useGetProjectByIdQuery} from "./projectApiSlice";
 import EditProject from "../projects/EditProject";
+import "../../App.css"
 export default function Project() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -21,9 +22,10 @@ export default function Project() {
     refetchOnMountOrArgChange: true
   })
 
-
+  
   if(isSuccess && projectInfo === null) {
     setProjectInfo(project.entities[project.ids[0]])
+    console.log("info", project.entities[project.ids[0]])
   }
 
   function ToggleEditProject() {
@@ -32,11 +34,22 @@ export default function Project() {
 
 
   return <>
-    <button onClick={() => ToggleEditProject()}>{projectEdit ? 'Back' : 'Edit Project'}</button>
-    {projectEdit ? <EditProject ToggleEdit={ToggleEditProject} project={projectInfo} /> :
-    <div>
-      <button onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false  } })}>New Task</button>
-      <ProjectBoard project={projectInfo} />
-    </div>}
+    <div className="component-header">
+      <div className="component-header-details">
+        <h2>{ projectInfo?.name }</h2>
+        <p onClick={() => ToggleEditProject()}>{projectEdit ? 'Back' : 'Edit'}</p>
+      </div>
+
+      <div className="component-header-breakdown">
+      
+      </div>
+
+      <div className="component-header-actions">        
+        <button onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false  } })}>New Task</button>
+      </div>
+
+    </div>
+    {projectEdit ? <EditProject ToggleEdit={ToggleEditProject} project={projectInfo} /> : 
+      <ProjectBoard project={projectInfo} /> }
   </>
 }

@@ -1,12 +1,12 @@
 import { Draggable } from "react-beautiful-dnd";
-
+import "../../../App.css"
 export const Drag = ({ id, index, ...props }) => {
   return (
     <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
         return (
           <div ref={provided.innerRef} {...provided.draggableProps} {...props}>
-            <div style={styles.handle} {...provided.dragHandleProps}>
+            <div className="task-header" {...provided.dragHandleProps}>
              <p style={styles.value}>{props.value}</p> 
             </div>
             {props.children}

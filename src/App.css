@@ -1,7 +1,11 @@
 :root {
-  --border-color: "2px solid black"
+  --border-color: "2px solid black";
+  --btn-primary: #4B0E90;
+  --highlight: #1B0533;
+  --text: #080E01;
+  --shadow: #00000041;
+  --main-bg: #FFFFFF;
 }
-
 body {
   background-color: rgb(255, 255, 255);
   font-family: 'Roboto Slab', serif;
@@ -17,7 +21,75 @@ body {
   font-size: 2rem;
   color: black;
 }
+/* NEW STYLING */
 
+/* Task */
+.task-header {
+  background-color: var(--highlight);
+  border-radius: 10px 10px 0 0;
+  height: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.task, .task-schedule {
+  background-color: var(--main-bg);
+  border-radius: 0 0 10px 10px;
+  height: 8rem;
+  box-shadow: 0 4px 4px #00000041;
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.task-schedule {
+  width: 50%;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+button {
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: var(--btn-primary);
+  font-size: 1.5rem;
+  border: none;
+  margin: 1rem;
+  padding: 0.5rem;
+}
+
+.component-header {
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+.component-header h2, .component-header p {
+  margin: 0;
+}
+
+.component-header-details {
+  width: 10%;
+  padding: 0.4rem;
+}
+.component-header-breakdown {
+  width: 80%;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
+
+}
+.component-header-actions {
+  width: 10%;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* OLD BELOW */
 /* FORMS */
 .form-container h1 {
   margin: 0;
