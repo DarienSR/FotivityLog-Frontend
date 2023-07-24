@@ -32,7 +32,7 @@ body {
   font-weight: bold;
 }
 
-.task, .task-schedule {
+.task {
   background-color: var(--main-bg);
   border-radius: 0 0 10px 10px;
   height: 8rem;
@@ -42,12 +42,52 @@ body {
 }
 
 .task-schedule {
-  width: 50%;
-  border-radius: 10px;
+  width: 25rem;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 4px #00000041;
+  border-top: 1rem solid black;
+  border-radius: 0 0 10px 10px;
+  padding: 1rem;
+  cursor: pointer;
+}
+.task-schedule-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.task-schedule-left div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.task-schedule-left span {
+  align-self: flex-end;
+}
+
+.task-schedule-middle p, .task-schedule-middle h3 {
+  margin: 0;
+  font-size: 1.3rem
+}
+
+.task-schedule-middle h3 {
+  font-size: 1.6rem
+}
+
+.task-schedule-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 1.2rem;
+}
+
+.unassigned-tasks-header {
+  font-size: 1.4rem;
   font-weight: bold;
 }
 
-button {
+.button-primary {
   border-radius: 10px;
   color: white;
   font-weight: bold;
@@ -56,13 +96,29 @@ button {
   border: none;
   margin: 1rem;
   padding: 0.5rem;
+  max-height: 3rem;
+}
+
+.secondary-button {
+  border-radius: 10px;
+  color: var(--highlight);
+  background: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid var(--highlight);
+  margin: 1rem;
+  padding: 0.5rem;
+  min-width: 6rem;
+  max-height: 3rem;
 }
 
 .component-header {
   width: 98%;
   margin: 0 auto;
   display: flex;
-  border-bottom: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px #00000041;
+  margin-bottom: 1rem;
 }
 
 .component-header h2, .component-header p {
@@ -70,19 +126,22 @@ button {
 }
 
 .component-header-details {
-  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 15%;
   padding: 0.4rem;
+  font-size: 1.4rem;
+  flex-direction: column;
 }
 .component-header-breakdown {
-  width: 80%;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  width: 70%;
   margin-bottom: 1rem;
   padding: 0.4rem;
 
 }
 .component-header-actions {
-  width: 10%;
+  width: 15%;
   padding: 0.4rem;
   display: flex;
   justify-content: flex-end;

@@ -8,7 +8,6 @@ import Signup from './components/authentication/Signup';
 import PersistLogin from './components/authentication/PersistLogin';
 import Prefetch from './components/authentication/Prefetch';
 
-
 // Sessions and Dashboard
 import SessionList from './components/sessions/SessionList';
 import EditSession from './components/sessions/EditSession';
@@ -22,10 +21,10 @@ import EditUser from './components/users/EditUser';
 // Project and Schedule
 import Schedule from './components/schedule/Schedule';
 import CreateTask from './components/task/CreateTask';
-import Project from "./components/projects/Project";
+import { Project } from './components/dnd/Project';
 import ProjectList from './components/projects/ProjectList';
 import CreateProject from './components/projects/CreateProject';
-
+import RenderTimeline from "./components/schedule/RenderTimeline";
 
 function App() {
   return (
@@ -58,6 +57,7 @@ function App() {
 
                 <Route path="schedule">
                   <Route index element={<Schedule />} />
+                  <Route path="timeline" element={<RenderTimeline />} />
                   <Route path="task/create" element={<CreateTask />} />
                 </Route>
 

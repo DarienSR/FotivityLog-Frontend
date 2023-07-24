@@ -36,7 +36,7 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       }
     }),
     getProjectTasks: builder.query({
-      query: (data) => ({url: `/tasks/${data.user}/project/${data.path}`}),
+      query: (data) => ({url: `/tasks/${data.user}/project/${data.project_id}`}),
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError
       },
