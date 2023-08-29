@@ -1,14 +1,20 @@
 :root {
-  --border-color: "2px solid black"
+  --border-color: "2px solid black";
+  --btn-primary: #4B0E90;
+  --highlight: #1B0533;
+  --text: #080E01;
+  --shadow: #00000041;
+  --main-bg: #FFFFFF;
 }
-
 body {
-  background-color: rgb(255, 255, 255);
+  background-color: #F9F8F8;
   font-family: 'Roboto Slab', serif;
 }
 
 .fotivity-container {
+  width: 80%;
   margin: 8rem auto;
+  color:#463A3A;
 }
 
 .logo {
@@ -17,7 +23,142 @@ body {
   font-size: 2rem;
   color: black;
 }
+/* NEW STYLING */
 
+/* Task */
+.task-header {
+  background-color: var(--highlight);
+  border-radius: 10px 10px 0 0;
+  height: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.task {
+  background-color: var(--main-bg);
+  border-radius: 0 0 10px 10px;
+  height: 8rem;
+  box-shadow: 0 4px 4px #00000041;
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.task-schedule {
+  padding: 1rem;
+  cursor: pointer;
+  width: 25%;
+  box-shadow: #00000052 0px 2px 2px
+}
+.task-schedule-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.task-schedule-top-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.task-schedule-top h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.task-schedule-top span {
+  margin-left: 0.2rem
+}
+
+.task-schedule-left div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.task-schedule-left span {
+  align-self: flex-end;
+}
+
+.task-schedule-middle p, .task-schedule-middle h3 {
+  margin: 0;
+  font-size: 1.2rem
+}
+
+.task-schedule-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 1.2rem;
+}
+
+.unassigned-tasks-header {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.button-primary {
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: var(--btn-primary);
+  font-size: 1.5rem;
+  border: none;
+  margin: 1rem;
+  padding: 0.5rem;
+  max-height: 3rem;
+}
+
+.secondary-button {
+  border-radius: 10px;
+  color: var(--highlight);
+  background: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: 2px solid var(--highlight);
+  margin: 1rem;
+  padding: 0.5rem;
+  min-width: 6rem;
+  max-height: 3rem;
+}
+
+.component-header {
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px #00000041;
+  margin-bottom: 1rem;
+}
+
+.component-header h2, .component-header p {
+  margin: 0;
+}
+
+.component-header-details {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  width: 15%;
+  padding: 0.4rem;
+  font-size: 1.4rem;
+  flex-direction: column;
+}
+.component-header-breakdown {
+  width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
+
+}
+.component-header-actions {
+  width: 15%;
+  padding: 0.4rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* OLD BELOW */
 /* FORMS */
 .form-container h1 {
   margin: 0;
@@ -158,4 +299,15 @@ body {
 /* antd over writes */
 .ant-picker-calendar-full .ant-radio-button-wrapper:last-child  {
   visibility: hidden !important;
+}
+
+
+
+.body {
+  width: '40%';
+  margin: '0 auto';
+  background-color: '#FFFFFF';
+  border-radius: '10px';
+  padding: '1rem';
+  box-shadow: '#00000052 0px 2px 2px';
 }

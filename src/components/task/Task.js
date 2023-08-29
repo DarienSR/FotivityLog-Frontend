@@ -3,6 +3,7 @@ import ViewTask from "./ViewTask";
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "../dnd/drag-and-drop";
 import { PaperClipOutlined, BookOutlined } from '@ant-design/icons';
+import "../../App.css"
 export default function Task(props) {
 
   const [toggleTaskModal, setToggleTaskModal] = useState(false);
@@ -18,7 +19,7 @@ export default function Task(props) {
   }
 
   let tagColors = props.item.tags?.map((tag) => {
-   return  <div style={{backgroundColor: tag.color || null, maxHeight: '1.5rem', minWidth: '4rem', display: 'flex', justifyContent: 'center', fontSize: '0.8rem', marginLeft: '0.35rem'}} title={tag.name}><p style={{ marginTop: '0.25rem' }}>{tag.name.toUpperCase()}</p></div>
+   return  <div style={{backgroundColor: tag.color || null, maxHeight: '1.5rem', minWidth: '4rem', display: 'flex', justifyContent: 'center', fontSize: '0.8rem', marginLeft: '0.35rem', borderRadius: '10px', padding: '0.2rem'}} title={tag.name}><p style={{ marginTop: '0.25rem' }}>{tag.name.toUpperCase()}</p></div>
   })
 
   return (
@@ -30,7 +31,7 @@ export default function Task(props) {
         index={props.index}
         value={props.item.value}
       >
-      <div style={styles.task} onClick={() => ToggleTaskModal(props.item)}>
+      <div className="task" onClick={() => ToggleTaskModal(props.item)}>
         <div style={{ display: 'flex', marginBottom: '0.2rem' }}>
           { tagColors }
         </div>
@@ -51,7 +52,7 @@ export default function Task(props) {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
-              <ViewTask belongsToProject={true} item={taskModalData} />
+              <ViewTask project={props.project} belongsToProject={true} item={taskModalData} />
             </Modal>
         </> : null
       }

@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { useUpdateTaskMutation, useDeleteTaskMutation } from "./taskApiSlice"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { Col, ColorPicker, Row, Space } from 'antd';
+import { TimePicker } from 'antd';
 import useAuth from '../../hooks/useAuth.js'
 import Dropdown from "../modular/Dropdown"
 import MultipleInput from "../modular/MultipleInput";
@@ -66,7 +66,9 @@ export default function EditTask(props) {
   const [links, setLinks] = useState(props.item.links)
   const [stage, setStage] = useState(props.item.stage)
   const [reoccursOn, setReoccursOn] = useState([])
-
+  const [completed, setCompleted] = useState(props.item.completed || false)
+  const [timeStart, setTimeStart] = useState(props.item.timeStart)
+  const [timeFinish, setTimeFinish] = useState(props.item.timeFinish)
   const [updateTask] = useUpdateTaskMutation()
   const [deleteTask] = useDeleteTaskMutation()
 
@@ -77,9 +79,17 @@ export default function EditTask(props) {
 
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault()
-    await updateTask({user_id, task, id: props.item.id, value, tags, finishBy, desc, notes, links, stage, scheduled_for })
+    await updateTask({user_id, task, id: props.item.id, value, tags, finishBy, desc, notes, timeStart, timeFinish, links, stage, scheduled_for, completed })
     navigate(0)
   }
+
+  const onTimeStartChange = (time, timeString) => {
+    setTimeStart(timeString)
+  };
+
+  const onTimeFinishChange = (time, timeString) => {
+    setTimeFinish(timeString)
+  };
 
   const DeleteTask = async (e) => {
     e.preventDefault()
@@ -101,6 +111,11 @@ export default function EditTask(props) {
     setTags(selectedTags)
   }
 
+  function ToggleCompleted(e) {
+    e.preventDefault()
+    setCompleted(!completed)
+  }
+
   return (
     <div style={styles.container}>
       {
@@ -113,6 +128,8 @@ export default function EditTask(props) {
         <form style={styles.form} onSubmit={onUpdateTaskClicked}>
             <header>
               <h1>Edit Task</h1>
+              <p onClick={ToggleCompleted} style={styles.completeTask}>Toggle Completion</p>
+              <p>{completed ? 'Task Completed' : 'Task Scheduled'}</p>
             </header>
 
             <label htmlFor="task">Task*</label>
@@ -145,6 +162,8 @@ export default function EditTask(props) {
                     value={scheduled_for}
                     onChange={(e) => setScheduledFor(e.target.value)}
                 /> 
+                <TimePicker use12Hours format="h:mm a" onChange={onTimeStartChange} />
+                <TimePicker use12Hours format="h:mm a" onChange={onTimeFinishChange} />
               </> : <Dropdown  
                 onChange={ (e) => setStage(e) }
                 options={ options }
@@ -167,9 +186,9 @@ export default function EditTask(props) {
 
 
 
-            <MultipleInput values={links} label={"Links"} Update={(e) => setLinks(e)} />
+          <MultipleInput values={links} label={"Links"} Update={(e) => setLinks(e)} />
 
-            <MultipleInput values={notes} label={"Notes"} Update={(e) => setNotes(e)} />
+          <MultipleInput values={notes} label={"Notes"} Update={(e) => setNotes(e)} />
 
            <MultiSelect defaultValue={defaultTags} values={formattedTags} label={"Tags"} Update={(e) => UpdateTags(e)} />
               
@@ -189,6 +208,9 @@ export default function EditTask(props) {
 }
 
 let styles = {
+  completeTask: {
+    backgroundColor: '#a2ffc6'
+  },
   container: {
     width: '100%'
   },

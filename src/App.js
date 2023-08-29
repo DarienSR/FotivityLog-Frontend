@@ -8,7 +8,6 @@ import Signup from './components/authentication/Signup';
 import PersistLogin from './components/authentication/PersistLogin';
 import Prefetch from './components/authentication/Prefetch';
 
-
 // Sessions and Dashboard
 import SessionList from './components/sessions/SessionList';
 import EditSession from './components/sessions/EditSession';
@@ -20,13 +19,14 @@ import User from './components/users/User';
 import EditUser from './components/users/EditUser';
 
 // Project and Schedule
-import Schedule from './components/schedule/Schedule';
+import Schedule from './components/schedule//ui/Schedule';
 import CreateTask from './components/task/CreateTask';
-import Project from "./components/projects/Project";
+import CreateScheduledTask from "./components/schedule/ui/CreateScheduledTask"
+import { Project } from './components/dnd/Project';
 import ProjectList from './components/projects/ProjectList';
 import CreateProject from './components/projects/CreateProject';
-
-
+import EditTask from './components/task/EditTask';
+import ViewDay from './components/schedule/ui/ViewDay';
 function App() {
   return (
     <Routes>
@@ -58,7 +58,8 @@ function App() {
 
                 <Route path="schedule">
                   <Route index element={<Schedule />} />
-                  <Route path="task/create" element={<CreateTask />} />
+                  <Route path="timeline/:date" element={<ViewDay />} />
+                  <Route path="task/create" element={<CreateScheduledTask />} />
                 </Route>
 
 
@@ -67,6 +68,10 @@ function App() {
                   <Route path=":id" element={<Project />} />
                   <Route path="create" element={<CreateProject />} />
                   <Route path="task/:id/new" element={<CreateTask />} />
+                </Route>
+
+                <Route path="tasks">
+                  <Route path="view" element={<EditTask />} />
                 </Route>
                 {/* <Route path="admin" element={<AdminDashboard />}>
                   <Route path="site-analytics">
