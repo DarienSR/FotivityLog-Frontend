@@ -1,23 +1,20 @@
-import '../../App.css'
-import { useGetScheduledTasksQuery } from '../task/taskApiSlice'
-import useAuth from '../../hooks/useAuth.js'
+
+import { useGetScheduledTasksQuery } from '../api/scheduleApiSlice'
+import useAuth from '../../../hooks/useAuth.js'
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import "../../App.css"
 import { Badge, Calendar, Timeline, Radio } from 'antd';
 import { useState } from "react"
-import ViewTask from "../task/ViewTask";
+import ViewTask from "../../task/ViewTask";
 import { Modal } from 'antd';
-import "../../App.css"
+import "../../../App.css"
 import { CloseCircleFilled, CheckCircleFilled  } from '@ant-design/icons';
-import { useUpdateTaskMutation } from '../task/taskApiSlice'
+
 import RenderTimeline from './RenderTimeline'
 const Schedule = () => {
   const { user_id } = useAuth()
-  const { data, isSuccess } = useGetScheduledTasksQuery(user_id)
-  const [updateTask] = useUpdateTaskMutation()
+  const { data, isSuccess } = useGetScheduledTasksQuery(`/schedule/tasks/${user_id}`)
   const navigate = useNavigate()
-  const [toggleTimeline, setToggleTimeline] = useState(false);
-  const [timelineState, setTimelineState] = useState(null);
+
   let tasks = []
 
   if(isSuccess) {
@@ -36,10 +33,7 @@ const Schedule = () => {
 
   const [value, setValue] = useState();
 
-
   let panelChange = false;
-
-
 
 
   const onPanelChange = (newValue) => {
@@ -77,12 +71,7 @@ const Schedule = () => {
     if(panelChange) return;
 
     let date = value.$d.toISOString().split('T')[0]
-    const data = tasks.filter((task) => {
-      return date === task.data.scheduled_for
-    });
-
-    const state = { data, date }
-    navigate('./timeline', { state })
+    navigate(`./timeline/${date}`)
   }
 
   return (
@@ -91,7 +80,8 @@ const Schedule = () => {
       <div className='fotivity-container'>
         <h1>Schedule</h1>
         <button onClick={() => navigate("./task/create",  { state: { belongsToProject: null, belongsToGoal: null } })}>Create Task</button>
-      
+
+        
         <Calendar mode={"month"} value={value} onPanelChange={onPanelChange} onSelect={NavigateToTimeline} cellRender={cellRender} />;
       </div>
       
