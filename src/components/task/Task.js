@@ -1,5 +1,5 @@
 import { Card, Modal } from 'antd';
-import ViewTask from "./ViewTask";
+import EditTask from "./EditTask";
 import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "../dnd/drag-and-drop";
 import { PaperClipOutlined, BookOutlined } from '@ant-design/icons';
@@ -52,7 +52,7 @@ export default function Task(props) {
               okButtonProps={{ style: { display: 'none'} }}
               width={"60%"}
             >
-              <ViewTask project={props.project} belongsToProject={true} item={taskModalData} />
+              <EditTask toggleModal={ToggleTaskModal} data={props.item} /> 
             </Modal>
         </> : null
       }

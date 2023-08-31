@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // List all of the users projects
-import { useGetAllProjectsQuery } from "./projectApiSlice";
+import { useGetProjectsQuery } from "./projectApiSlice";
 import useAuth from '../../hooks/useAuth.js'
 import "../../App.css"
 import { Link, useNavigate, useLocation } from "react-router-dom"
@@ -16,7 +16,7 @@ export default function ProjectList() {
     isSuccess,
     isError,
     error
-  } = useGetAllProjectsQuery(user_id, {
+  } = useGetProjectsQuery(`/projects/${user_id}`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
@@ -27,21 +27,43 @@ export default function ProjectList() {
   if(isSuccess) {
     const { ids } = tasks;
     projects = ids.map((id) => {
-      return <div>
-          <button onClick={() => navigate(`/log/projects/${tasks.entities[id].id}`, {state: { project: tasks.entities[id] }})}>
+      return <div style={styles.projectContainer}>
+          <p style={styles.project} onClick={() => navigate(`/log/projects/${tasks.entities[id].id}`, {state: { project: tasks.entities[id] }})}>
             {tasks.entities[id].name}
-          </button>
+          </p>
         </div>
     })
     console.log(projects)
   }
 
   // ability to create projects here.
-  return (
-    <div className="fotivity-container">
-      <p>List all projects associated with the user</p>
+  return <div style={styles.container}>
+    <div style={{display: 'flex'}}>
       { projects }
-      <button onClick={ () => navigate("/log/projects/create") }>New Project</button>
     </div>
-  )
+  
+    <button className="button-primary" onClick={ () => navigate("/log/projects/create") }>New Project</button>
+  </div>
+}
+
+let styles = {
+  container: {
+    width: '80%',
+    margin: '0 auto'
+  },
+  projectContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  project: {
+    borderRadius: '10px',
+    boxShadow: '0 4px 4px #00000041',
+    padding: '4rem',
+    fontSize: '2.5rem',
+    width: '15rem',
+    textAlign: 'center',
+    margin: '1rem',
+    cursor: 'pointer'
+  }
 }

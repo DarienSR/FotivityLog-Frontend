@@ -1,21 +1,15 @@
 import { useMemo, useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewTaskMutation } from "./taskApiSlice"
 import useAuth from '../../hooks/useAuth.js'
 import { Col, ColorPicker, Row, Space } from 'antd';
 import Dropdown from "../modular/Dropdown"
 import MultipleInput from "../modular/MultipleInput";
 import MultiSelect from "../modular/MultiSelect";
-import { useGetProjectByIdQuery} from "../projects/projectApiSlice";
+import { useGetProjectTasksQuery, useAddNewProjectTaskMutation} from "../projects/api/projectTaskApiSlice";
 import { TimePicker } from 'antd';
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
-  const [addNewTask, {
-    isLoadingS,
-    isSuccessS,
-    isError,
-    errors
-  }] = useAddNewTaskMutation(user_id)
+  const [addNewTask] = useAddNewProjectTaskMutation()
 
   const navigate = useNavigate()
   const { pathname, state } = useLocation()
@@ -39,7 +33,7 @@ export default function CreateProjectTask(props) {
     isLoading,
     isSuccess,
     error
-  } = useGetProjectByIdQuery(project_id, {
+  } = useGetProjectTasksQuery(`/projects/${user_id}/${project_id}/tasks`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
@@ -69,14 +63,15 @@ export default function CreateProjectTask(props) {
   const [notes, setNotes] = useState([])
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState(0)
-  const [reoccursOn, setReoccursOn] = useState([])
   const [timeStart, setTimeStart] = useState()
   const [timeFinish, setTimeFinish] = useState()
   const onCreateTaskClicked = async (e) => {
     // prevent value and stage from being less than 0 
 
     e.preventDefault()
-    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, timeStart, timeFinish, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
+    console.log('Adding new task to project', project_id, user_id);
+
+    await addNewTask({ user_id, stage, value, desc, scheduled_for, timeStart, timeFinish, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
 
   const onTimeStartChange = (time, timeString) => {

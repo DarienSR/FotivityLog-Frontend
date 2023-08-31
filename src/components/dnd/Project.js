@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
 import { reorder, handleDragEnd } from "./helper"
 import useAuth from '../../hooks/useAuth.js'
-import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../task/taskApiSlice";
-import { useGetProjectByIdQuery } from "../projects/projectApiSlice";
+import { useGetProjectTasksQuery, useUpdateProjectTaskMutation} from "../projects/api/projectTaskApiSlice";
+import { useGetProjectsQuery } from "../projects/projectApiSlice";
 import EditProject from "../projects/EditProject";
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import Task from "../task/Task";
@@ -20,18 +20,18 @@ export const Project = (props) => {
   const [categories, setCategories] = useState(null);
   const [projectInfo, setProjectInfo] = useState(null)
 
-  const { data: projectDetails, isSuccess: projectDetailsLoaded } = useGetProjectByIdQuery(project_id, {
+  const { data: projectDetails, isSuccess: projectDetailsLoaded } = useGetProjectsQuery(`/projects/${user_id}?_id=${project_id}`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
-  const { data: projectTasks, isSuccess: projectTasksLoaded } = useGetProjectTasksQuery({user: user_id, project_id}, {
+  const { data: projectTasks, isSuccess: projectTasksLoaded } = useGetProjectTasksQuery(`/projects/${user_id}/${project_id}/tasks`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
   
-  const [updateTask] = useUpdateTaskMutation()
+  const [updateTask] = useUpdateProjectTaskMutation()
 
 
   // Functions used in setup
@@ -70,9 +70,11 @@ export const Project = (props) => {
     if(categories === null)
       setCategories(AssignTasksToColumns())
   } else {
-    return <p>Loading</p>
+    <p>Create a task to get started</p>
   }
 
+  
+  
   console.log("dddd ", projectInfo)
 
   // Functions used in render
