@@ -1,9 +1,9 @@
-import { useGetSessionsQuery } from "./sessionsApiSlice"
+import { useGetSessionsQuery } from "../api/sessionsApiSlice"
 import Session from './Session'
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../hooks/useAuth.js'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
-import "../../App.css"
+import "../../../App.css"
 const SessionList = () => {
 
   const { username, email, user_id} = useAuth()

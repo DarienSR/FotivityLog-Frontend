@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useGetSessionsByIdQuery, useUpdateSessionMutation, useDeleteSessionMutation } from "./sessionsApiSlice"
-import useAuth from '../../hooks/useAuth.js'
+import { useGetSessionsByIdQuery, useUpdateSessionMutation, useDeleteSessionMutation } from "../api/sessionsApiSlice"
+import useAuth from '../../../hooks/useAuth.js'
 import { useParams } from 'react-router-dom'
 
 const EditSession = (props) => {

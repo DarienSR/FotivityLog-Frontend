@@ -1,11 +1,11 @@
 import { useMemo, useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../../hooks/useAuth.js'
 import { Col, ColorPicker, Row, Space } from 'antd';
-import Dropdown from "../modular/Dropdown"
-import MultipleInput from "../modular/MultipleInput";
-import MultiSelect from "../modular/MultiSelect";
-import { useGetProjectTasksQuery, useAddNewProjectTaskMutation} from "../projects/api/projectTaskApiSlice";
+import Dropdown from "../../../modular/Dropdown.js"
+import MultipleInput from "../../../modular/MultipleInput.js";
+import MultiSelect from "../../../modular/MultiSelect.js";
+import { useGetProjectTasksQuery, useAddNewProjectTaskMutation} from "../../api/projectTaskApiSlice.js";
 import { TimePicker } from 'antd';
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
@@ -67,9 +67,7 @@ export default function CreateProjectTask(props) {
   const [timeFinish, setTimeFinish] = useState()
   const onCreateTaskClicked = async (e) => {
     // prevent value and stage from being less than 0 
-
     e.preventDefault()
-    console.log('Adding new task to project', project_id, user_id);
 
     await addNewTask({ user_id, stage, value, desc, scheduled_for, timeStart, timeFinish, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }

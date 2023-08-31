@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 // List all of the users projects
-import { useGetProjectsQuery } from "./projectApiSlice";
-import useAuth from '../../hooks/useAuth.js'
-import "../../App.css"
+import { useGetProjectsQuery } from "../api/projectApiSlice";
+import useAuth from '../../../hooks/useAuth.js'
+import "../../../App.css"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 export default function ProjectList() {
 
@@ -33,7 +33,6 @@ export default function ProjectList() {
           </p>
         </div>
     })
-    console.log(projects)
   }
 
   // ability to create projects here.

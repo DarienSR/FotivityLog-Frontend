@@ -22,8 +22,6 @@ export default function EditScheduledTask(props) {
   const [timeFinish, setTimeFinish] = useState(props.data.time_finish)
 
   async function DeleteTask() {
-    alert('delete');
-    console.log('tasl top dekere', id);
     await deleteTask({user_id, id});
   }
 
@@ -60,7 +58,6 @@ export default function EditScheduledTask(props) {
   };
 
   const onCompletedChange = e => {
-    console.log(e.target.checked);
     setCompleted(e.target.checked)
   }
 

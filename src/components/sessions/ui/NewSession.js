@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewSessionMutation, useCheckForActiveSessionQuery, useUpdateSessionMutation } from "./sessionsApiSlice"
-import useAuth from '../../hooks/useAuth.js'
+import { useAddNewSessionMutation, useCheckForActiveSessionQuery, useUpdateSessionMutation } from "../api/sessionsApiSlice"
+import useAuth from '../../../hooks/useAuth.js'
 import { format } from "date-fns";
 
 

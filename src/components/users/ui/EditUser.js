@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { useUpdateUserMutation } from "../users/usersApiSlice"
+import { useUpdateUserMutation } from "../api/usersApiSlice"
 import { useNavigate, Link } from "react-router-dom"
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../hooks/useAuth.js'
 
-import "../../App.css"
+import "../../../App.css"
 const USER_REGEX = /^[A-z]{3,20}$/
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 const EditUser = () => {

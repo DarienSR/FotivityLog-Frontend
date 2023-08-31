@@ -22,7 +22,6 @@ export default function CreateScheduledTask(props) {
 
   async function AddTask(e) {
     e.preventDefault();
-    console.log(completed)
     const result = await addTask({
       user_id,
       task,
@@ -49,7 +48,6 @@ export default function CreateScheduledTask(props) {
   };
 
   const onCompletedChange = e => {
-    console.log(e.target.checked);
     setCompleted(e.target.checked)
   }
 

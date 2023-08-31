@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
-import { reorder, handleDragEnd } from "./helper"
-import useAuth from '../../hooks/useAuth.js'
-import { useGetProjectTasksQuery, useUpdateProjectTaskMutation} from "../projects/api/projectTaskApiSlice";
-import { useGetProjectsQuery } from "../projects/projectApiSlice";
-import EditProject from "../projects/EditProject";
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import Task from "../task/Task";
-import "../../App.css"
+import { DragAndDrop, Drag, Drop } from "../../dnd/drag-and-drop";
+import { reorder, handleDragEnd } from "../../dnd/helper"
+import useAuth from '../../../hooks/useAuth.js'
+import { useGetProjectTasksQuery, useUpdateProjectTaskMutation} from "../api/projectTaskApiSlice";
+import { useGetProjectsQuery } from "../api/projectApiSlice";
+import EditProject from "./EditProject";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import Task from "../ui/tasks/Task";
+import "../../../App.css"
 import { SettingOutlined } from '@ant-design/icons';
 export const Project = (props) => {
   
@@ -72,10 +72,6 @@ export const Project = (props) => {
   } else {
     <p>Create a task to get started</p>
   }
-
-  
-  
-  console.log("dddd ", projectInfo)
 
   // Functions used in render
   function UpdateTaskStage(task, newStage, updatedCategories) {

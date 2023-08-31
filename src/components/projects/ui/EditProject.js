@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useUpdateProjectMutation } from "./projectApiSlice"
-import useAuth from '../../hooks/useAuth.js'
-import "../../App.css"
-import SetTags from "../modular/SetTags";
+import { useUpdateProjectMutation } from "../api/projectApiSlice"
+import useAuth from '../../../hooks/useAuth.js'
+import "../../../App.css"
+import SetTags from "../../modular/SetTags";
 
 export default function EditProject(props) {
   const { user_id} = useAuth()
   const [updateProject] = useUpdateProjectMutation()
   const navigate = useNavigate()
- 
-
-
-  console.log("--->", props)
   const [name, setName] = useState(props.project.name || "")
   const [tags, setTags] = useState(props.project.tags || [])
   

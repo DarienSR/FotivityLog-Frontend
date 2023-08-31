@@ -1,9 +1,9 @@
 import { Card, Modal } from 'antd';
 import EditTask from "./EditTask";
 import React, { useState } from "react";
-import { DragAndDrop, Drag, Drop } from "../dnd/drag-and-drop";
+import { DragAndDrop, Drag, Drop } from "../../../dnd/drag-and-drop";
 import { PaperClipOutlined, BookOutlined } from '@ant-design/icons';
-import "../../App.css"
+import "../../../../App.css"
 export default function Task(props) {
 
   const [toggleTaskModal, setToggleTaskModal] = useState(false);

@@ -1,12 +1,11 @@
 import { useState } from "react"
-import { useUpdateProjectTaskMutation, useDeleteProjectTaskMutation } from  "../projects/api/projectTaskApiSlice"
+import { useUpdateProjectTaskMutation, useDeleteProjectTaskMutation } from  "../../api/projectTaskApiSlice"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../../hooks/useAuth.js'
 import EditTask from "./EditTask"
 export default function ViewTask(props) {
   const { user_id } = useAuth()
   const navigate = useNavigate()
-  console.log('view task:, ', props)
   const [task, setTask] = useState(props.data.task)
   const [toggleEdit, setToggleEdit] = useState(false)
 

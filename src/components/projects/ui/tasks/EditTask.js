@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { TimePicker } from 'antd';
-import useAuth from '../../hooks/useAuth.js'
-import Dropdown from "../modular/Dropdown"
-import MultipleInput from "../modular/MultipleInput";
-import MultiSelect from "../modular/MultiSelect";
-import { useUpdateProjectTaskMutation, useDeleteProjectTaskMutation} from "../projects/api/projectTaskApiSlice";
-import { useGetProjectsQuery } from "../projects/projectApiSlice.js";
+import useAuth from '../../../../hooks/useAuth.js'
+import Dropdown from "../../../modular/Dropdown.js"
+import MultipleInput from "../../../modular/MultipleInput.js";
+import MultiSelect from "../../../modular/MultiSelect.js";
+import { useUpdateProjectTaskMutation, useDeleteProjectTaskMutation} from "../../api/projectTaskApiSlice.js";
+import { useGetProjectsQuery } from "../../api/projectApiSlice.js";
 export default function EditTask(props) {
   const { state } = useLocation();
 
@@ -52,10 +52,6 @@ export default function EditTask(props) {
         label: tag.name
       }
     }) 
-
-    console.log("def", defaultTags)
-
-
 
   const [finishBy, setFinishBy] = useState(props.data.finishBy)
   const [desc, setDesc] = useState(props.data.desc)
