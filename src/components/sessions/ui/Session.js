@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
-import "../../App.css"
+import "../../../App.css"
 const Session = (props) => {
-  console.log("indv, ", props.session)
-
   let session = props.session
   const navigate = useNavigate()
 

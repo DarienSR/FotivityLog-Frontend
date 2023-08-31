@@ -29,18 +29,15 @@ const PersistLogin = () => {
 
             const verifyRefreshToken = async () => {
                 try {
-                    console.log('verifying refresh token')
                     //const response = 
                     await refresh()
                     //const { accessToken } = response.data
                     setTrueSuccess(true)
                 }
                 catch (err) {
-                    console.log("error")
                     console.error(err)
                 }
             }
-            console.log(!token, persist)
             if (!token && persist) verifyRefreshToken()
         }
 
@@ -53,7 +50,6 @@ const PersistLogin = () => {
 
     
    if (isError) { //persist: yes, token: no
-        console.log('error')
         content = (
             <p className='errmsg'>
                 {error.data?.message}
@@ -61,7 +57,6 @@ const PersistLogin = () => {
             </p>
         )
     } else {
-        console.log("authenticated: ", token, user_id, username)
         content = <Outlet />
     }
 

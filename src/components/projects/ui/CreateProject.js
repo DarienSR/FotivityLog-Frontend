@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewProjectMutation } from "./projectApiSlice"
-import useAuth from '../../hooks/useAuth.js'
+import { useAddNewProjectMutation } from "../api/projectApiSlice"
+import useAuth from '../../../hooks/useAuth.js'
 import { format } from "date-fns";
-import SetTags from "../modular/SetTags";
+import SetTags from "../../modular/SetTags";
 
 export default function CreateProject() {
   const { username, email, user_id} = useAuth()

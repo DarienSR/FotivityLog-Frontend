@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useAddNewUserMutation } from "../users/usersApiSlice"
+import { useAddNewUserMutation } from "../users/api/usersApiSlice"
 import { useNavigate, Link } from "react-router-dom"
 import "../../App.css"
 const USER_REGEX = /^[A-z]{3,20}$/

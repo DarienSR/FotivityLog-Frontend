@@ -94,7 +94,6 @@ const RenderTimeline = (props) => {
 
   const data = [];
   selectedTasks?.forEach((task) => {
-    console.log(',', task)
     data.push({
       color: task.data.completed ? 'green' : 'red',
       children: RenderContainer(task),
@@ -106,13 +105,9 @@ const RenderTimeline = (props) => {
     });
   });
 
-  console.log(data)
-
   const assigned = data?.filter((task) => {
     return task.assigned;
   })
-
-  console.log(assigned)
 
   const unassigned = data?.filter((task) => {
     return !task.assigned;

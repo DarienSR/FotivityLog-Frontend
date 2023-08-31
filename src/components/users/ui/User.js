@@ -1,6 +1,6 @@
-import "../../App.css"
+import "../../../App.css"
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../hooks/useAuth.js'
 const User = () => {
   const { username, email, id} = useAuth()
   return (

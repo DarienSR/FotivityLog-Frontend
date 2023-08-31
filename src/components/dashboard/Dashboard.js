@@ -1,7 +1,7 @@
 import "../../App.css"
 import useAuth from '../../hooks/useAuth.js'
 import React, { useState, useEffect } from 'react';
-import { useGetSessionsQuery } from "../sessions/sessionsApiSlice"
+import { useGetSessionsQuery } from "../sessions/api/sessionsApiSlice"
 import axios from "axios";
 import Heatmap from "./charts/Heatmap";
 import Treemap from './charts/Treemap';

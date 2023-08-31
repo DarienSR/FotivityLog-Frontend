@@ -1,18 +1,16 @@
 import { useState } from "react"
-import { useUpdateTaskMutation, useDeleteTaskMutation } from "./taskApiSlice"
+import { useUpdateProjectTaskMutation, useDeleteProjectTaskMutation } from  "../../api/projectTaskApiSlice"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../../hooks/useAuth.js'
 import EditTask from "./EditTask"
 export default function ViewTask(props) {
   const { user_id } = useAuth()
-
   const navigate = useNavigate()
-
-  const [task, setTask] = useState(props.item.task)
+  const [task, setTask] = useState(props.data.task)
   const [toggleEdit, setToggleEdit] = useState(false)
 
-  const [updateTask] = useUpdateTaskMutation()
-  const [deleteTask] = useDeleteTaskMutation()
+  const [updateTask] = useUpdateProjectTaskMutation()
+  const [deleteTask] = useDeleteProjectTaskMutation()
 
   const onTaskChange = e => setTask(e.target.value)
 
@@ -21,14 +19,14 @@ export default function ViewTask(props) {
 
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault()
-    await updateTask({user_id, task, id: props.item.id, stage: props.item.stage })
+    await updateTask({user_id, task, id: props.data.id, stage: props.data.stage })
 
     navigate(0)
   }
 
   const DeleteTask = async (e) => {
     e.preventDefault()
-    await deleteTask({user_id, id: props.item.id})
+    await deleteTask({user_id, id: props.data.id})
     navigate(0)
   }
 
@@ -37,13 +35,13 @@ export default function ViewTask(props) {
   }
 
   let view =     <div style={styles.taskContainer}>
-  <h3  style={styles.task}>{props.item.task}</h3>
-  <p style={styles.desc}>{props.item.desc}</p>
+  <h3  style={styles.task}>{props.data.task}</h3>
+  <p style={styles.desc}>{props.data.desc}</p>
 
   <div>
     <div>
       <p>Notes</p>
-      { props.item.notes?.map((note) => {
+      { props.data.notes?.map((note) => {
         return <p style={styles.misc}>
           - {note}
         </p>
@@ -51,22 +49,22 @@ export default function ViewTask(props) {
     </div>
     <div>
       <p>Links</p>
-      { props.item.links?.map((link) => {
+      { props.data.links?.map((link) => {
         return <p style={styles.misc}>
           - <a href={link}>{link}</a> 
         </p>
       }) }
     </div>
-    {props.item.timeStart}
+    {props.data.timeStart}
     -
-    {props.item.timeFinish}
+    {props.data.timeFinish}
   </div>
   <hr />
-  <button onClick={() => navigate(`/log/sessions/new/`, {state: { project: props.project, task: props.item }})}>Go to Session</button>
+  <button onClick={() => navigate(`/log/sessions/new/`, {state: { project: props.project, task: props.data }})}>Go to Session</button>
   <button onClick={() => setToggleEdit(!toggleEdit)}>Edit Task</button>
 </div>
 
-  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.item} state={{belongsToProject: props.belongsToProject, belongsToGoal: props.belongsToGoal}} /> 
+  return !toggleEdit ? view : <EditTask ToggleEdit={setToggleEdit} item={props.data} state={{belongsToProject: props.belongsToProject, belongsToGoal: props.belongsToGoal}} /> 
   
 }
 

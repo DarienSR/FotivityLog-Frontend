@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { DragAndDrop, Drag, Drop } from "./drag-and-drop";
-import { reorder, handleDragEnd } from "./helper"
-import useAuth from '../../hooks/useAuth.js'
-import { useGetProjectTasksQuery, useUpdateTaskMutation} from "../task/taskApiSlice";
-import { useGetProjectByIdQuery } from "../projects/projectApiSlice";
-import EditProject from "../projects/EditProject";
-import { Link, useNavigate, useLocation } from "react-router-dom"
-import Task from "../task/Task";
-import "../../App.css"
+import { DragAndDrop, Drag, Drop } from "../../dnd/drag-and-drop";
+import { reorder, handleDragEnd } from "../../dnd/helper"
+import useAuth from '../../../hooks/useAuth.js'
+import { useGetProjectTasksQuery, useUpdateProjectTaskMutation} from "../api/projectTaskApiSlice";
+import { useGetProjectsQuery } from "../api/projectApiSlice";
+import EditProject from "./EditProject";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import Task from "../ui/tasks/Task";
+import "../../../App.css"
 import { SettingOutlined } from '@ant-design/icons';
+import Header from "../../modular/Header";
 export const Project = (props) => {
   
   const { user_id } = useAuth()
@@ -20,18 +21,18 @@ export const Project = (props) => {
   const [categories, setCategories] = useState(null);
   const [projectInfo, setProjectInfo] = useState(null)
 
-  const { data: projectDetails, isSuccess: projectDetailsLoaded } = useGetProjectByIdQuery(project_id, {
+  const { data: projectDetails, isSuccess: projectDetailsLoaded } = useGetProjectsQuery(`/projects/${user_id}?_id=${project_id}`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
-  const { data: projectTasks, isSuccess: projectTasksLoaded } = useGetProjectTasksQuery({user: user_id, project_id}, {
+  const { data: projectTasks, isSuccess: projectTasksLoaded } = useGetProjectTasksQuery(`/projects/${user_id}/${project_id}/tasks`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
   })
   
-  const [updateTask] = useUpdateTaskMutation()
+  const [updateTask] = useUpdateProjectTaskMutation()
 
 
   // Functions used in setup
@@ -70,10 +71,8 @@ export const Project = (props) => {
     if(categories === null)
       setCategories(AssignTasksToColumns())
   } else {
-    return <p>Loading</p>
+    <p>Create a task to get started</p>
   }
-
-  console.log("dddd ", projectInfo)
 
   // Functions used in render
   function UpdateTaskStage(task, newStage, updatedCategories) {
@@ -88,21 +87,36 @@ export const Project = (props) => {
 
   // Components used in render
 
+  function CreateTask() {
+    navigate(`/log/projects/task/${project_id}/new`);
+  }
+
   const RenderProject = <>
-    <div className="component-header">
-      <div className="component-header-details">
-        <h2>{ projectInfo?.name }</h2>
-        <p onClick={() => ToggleEditProject()}><SettingOutlined style={{fontSize: "1.3rem", margin: "1rem 0.4rem", cursor: "pointer"}} /> </p>
-      </div>
+      <Header 
+        title = { projectInfo?.name }
+        backText = "Edit"
+        backAction = { ToggleEditProject }
+        action = { CreateTask }
+        actionText = 'Create Task'
+        cards = { [
+          {
+            text: 'Tasks working towards goals',
+            x: 0,
+            y: 0,
+            cardBGColor: '#D326D7',
+            circleBGColor: '#BB24BE',
+          },
+          {
+            text: 'Tasks Completed',
+            x: 1,
+            y: 2,
+            cardBGColor: '#29B2D0',
+            circleBGColor: '#1197B5',
+          },
+        ]}
+      />
 
-      <div className="component-header-breakdown">
-      
-      </div>
 
-      <div className="component-header-actions">        
-        <button className="button-primary" onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false  } })}>New Task</button>
-      </div>
-    </div>
 
     <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
       <Drop style={ styles.board } id="droppable" type="droppable-category">
@@ -138,14 +152,16 @@ let styles = {
     display: 'flex',
     minHeight: '80vh',
     backgroundColor: '#FFFFFF',
-    color: '#080E01'
+    color: '#080E01',
+    borderRadius: '10px'
   },
   column: {
     backgroundColor: '#FFFFFF',
     boxShadow: '1px 2px 5px 1px #00000041',
     margin: "1rem",
     width: "16.666%",
-    padding: "1rem"
+    padding: "1rem",
+    borderRadius: '10px'
   },
   columnTitle: {
     textAlign: 'center',

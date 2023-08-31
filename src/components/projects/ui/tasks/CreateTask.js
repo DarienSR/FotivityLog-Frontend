@@ -1,45 +1,31 @@
 import { useMemo, useState, useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { useAddNewTaskMutation } from "./taskApiSlice"
-import useAuth from '../../hooks/useAuth.js'
+import useAuth from '../../../../hooks/useAuth.js'
 import { Col, ColorPicker, Row, Space } from 'antd';
-import Dropdown from "../modular/Dropdown"
-import MultipleInput from "../modular/MultipleInput";
-import MultiSelect from "../modular/MultiSelect";
-import { useGetProjectByIdQuery} from "../projects/projectApiSlice";
+import Dropdown from "../../../modular/Dropdown.js"
+import MultipleInput from "../../../modular/MultipleInput.js";
+import MultiSelect from "../../../modular/MultiSelect.js";
+import { useGetProjectTasksQuery, useAddNewProjectTaskMutation} from "../../api/projectTaskApiSlice.js";
 import { TimePicker } from 'antd';
 export default function CreateProjectTask(props) {
   const { username, email, user_id} = useAuth()
-  const [addNewTask, {
-    isLoadingS,
-    isSuccessS,
-    isError,
-    errors
-  }] = useAddNewTaskMutation(user_id)
+  const [addNewTask] = useAddNewProjectTaskMutation()
 
   const navigate = useNavigate()
   const { pathname, state } = useLocation()
 
+  const options = ["Under Consideration", "Future", "Queue", "Under Development", "Testing", "Finished"]
+  const project_id = pathname.split('/')[4]
 
-  // determine if task will be assigned to a project, goal, or schedule.
-  let belongsToProject = state.belongsToProject
-  let belongsToGoal = state.belongsToGoal 
-
-  let project_id = null;
-  let options = [];
-  if(belongsToProject) {
-    options = ["Under Consideration", "Future", "Queue", "Under Development", "Testing", "Finished"]
-    project_id = pathname.split('/')[4]
-  }
   
-  let redirectPath = belongsToProject ? `/log/projects/${project_id}` : "/log/schedule/";
+  let redirectPath = `/log/projects/${project_id}`;
 
   const {
     data: project,
     isLoading,
     isSuccess,
     error
-  } = useGetProjectByIdQuery(project_id, {
+  } = useGetProjectTasksQuery(`/projects/${user_id}/${project_id}/tasks`, {
     // pollingInterval: 60000, // refresh data every minute
     refetchedOnFocus: true, // refresh data when window is focused again
     refetchOnMountOrArgChange: true
@@ -65,18 +51,16 @@ export default function CreateProjectTask(props) {
 
   const [finishBy, setFinishBy] = useState('')
   const [desc, setDesc] = useState("")
-  const [scheduled_for, setScheduledFor] = useState(state.selectedDate || null)
   const [notes, setNotes] = useState([])
   const [links, setLinks] = useState([])
   const [stage, setStage] = useState(0)
-  const [reoccursOn, setReoccursOn] = useState([])
-  const [timeStart, setTimeStart] = useState()
-  const [timeFinish, setTimeFinish] = useState()
+  const [time_start, setTimeStart] = useState()
+  const [time_finish, setTimeFinish] = useState()
   const onCreateTaskClicked = async (e) => {
     // prevent value and stage from being less than 0 
-
     e.preventDefault()
-    await addNewTask({ user_id, stage, value, desc, reoccursOn, scheduled_for, timeStart, timeFinish, belongsToGoal, belongsToProject, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
+
+    await addNewTask({ user_id, stage, value, desc, time_start, time_finish, finishBy, tags, notes, links, task, project_id  }).then(() => { navigate(redirectPath) })
 }
 
   const onTimeStartChange = (time, timeString) => {
@@ -121,20 +105,6 @@ export default function CreateProjectTask(props) {
                   value={desc}
                   onChange={(e) => setDesc(e.target.value)}
               />
-
-            {!belongsToProject && !belongsToGoal? 
-              <>
-                <label htmlFor="task">Scheduled For</label>
-                <input
-                    className="form__input"
-                    type="date"
-                    id="scheduled_for"
-                    value={scheduled_for}
-                    onChange={(e) => setScheduledFor(e.target.value)}
-                /> 
-                <TimePicker use12Hours format="h:mm a" onChange={onTimeStartChange} />
-                <TimePicker use12Hours format="h:mm a" onChange={onTimeFinishChange} />
-              </> : null }
 
             <div style={styles.multipleInputs}>
              { options.length > 0 ? <Dropdown  

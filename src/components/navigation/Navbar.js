@@ -9,8 +9,6 @@ const Navbar = () => {
   const { pathname } = useLocation()
 
   const { username, email, user_id} = useAuth()
-  console.log(pathname)
-  if(pathname === '/dashboard') console.log("highlight dashboard")
 
   const [sendLogout, {
     isLoading,

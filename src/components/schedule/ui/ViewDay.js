@@ -26,7 +26,8 @@ export default function ViewDay() {
 
   return (
     <>
-      { hideHeader ? <Header 
+      { hideHeader ? 
+      <Header 
         title = { date }
         backText = "Back"
         backAction = { BackClick }
@@ -50,7 +51,7 @@ export default function ViewDay() {
         ] }
       /> : null }
 
-      <div style={{backgroundColor: 'white',borderRadius: '10px'}}>
+      <div style={{borderRadius: '10px'}}>
         <RenderTimeline HideParentHeader={HideHeader} />
       </div>
     </>

@@ -4,7 +4,7 @@ import useAuth from '../../../hooks/useAuth.js'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import { Badge, Calendar, Timeline, Radio } from 'antd';
 import { useState } from "react"
-import ViewTask from "../../task/ViewTask";
+import ViewTask from "../../projects/ui/tasks/ViewTask";
 import { Modal } from 'antd';
 import "../../../App.css"
 import { CloseCircleFilled, CheckCircleFilled  } from '@ant-design/icons';

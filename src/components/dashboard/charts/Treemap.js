@@ -2,8 +2,6 @@ import { React } from "react";
 import Chart from "react-apexcharts";
 
 export default function Treemap(props) {
-  console.log(props, "d")
-
   if(props.data === undefined) return null;
   if(props.data.length <= 0) return <p style={styles.noDataError}>No Data Available</p> 
 
