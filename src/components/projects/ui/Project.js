@@ -9,6 +9,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Task from "../ui/tasks/Task";
 import "../../../App.css"
 import { SettingOutlined } from '@ant-design/icons';
+import Header from "../../modular/Header";
 export const Project = (props) => {
   
   const { user_id } = useAuth()
@@ -86,21 +87,36 @@ export const Project = (props) => {
 
   // Components used in render
 
+  function CreateTask() {
+    navigate(`/log/projects/task/${project_id}/new`);
+  }
+
   const RenderProject = <>
-    <div className="component-header">
-      <div className="component-header-details">
-        <h2>{ projectInfo?.name }</h2>
-        <p onClick={() => ToggleEditProject()}><SettingOutlined style={{fontSize: "1.3rem", margin: "1rem 0.4rem", cursor: "pointer"}} /> </p>
-      </div>
+      <Header 
+        title = { projectInfo?.name }
+        backText = "Edit"
+        backAction = { ToggleEditProject }
+        action = { CreateTask }
+        actionText = 'Create Task'
+        cards = { [
+          {
+            text: 'Tasks working towards goals',
+            x: 0,
+            y: 0,
+            cardBGColor: '#D326D7',
+            circleBGColor: '#BB24BE',
+          },
+          {
+            text: 'Tasks Completed',
+            x: 1,
+            y: 2,
+            cardBGColor: '#29B2D0',
+            circleBGColor: '#1197B5',
+          },
+        ]}
+      />
 
-      <div className="component-header-breakdown">
-      
-      </div>
 
-      <div className="component-header-actions">        
-        <button className="button-primary" onClick={() => navigate(`/log/projects/task/${project_id}/new`, { state: { belongsToProject: true, belongsToGoal: false  } })}>New Task</button>
-      </div>
-    </div>
 
     <DragAndDrop onDragEnd={(result) => handleDragEnd(result, setCategories, UpdateTaskStage, categories)}>
       <Drop style={ styles.board } id="droppable" type="droppable-category">
@@ -136,14 +152,16 @@ let styles = {
     display: 'flex',
     minHeight: '80vh',
     backgroundColor: '#FFFFFF',
-    color: '#080E01'
+    color: '#080E01',
+    borderRadius: '10px'
   },
   column: {
     backgroundColor: '#FFFFFF',
     boxShadow: '1px 2px 5px 1px #00000041',
     margin: "1rem",
     width: "16.666%",
-    padding: "1rem"
+    padding: "1rem",
+    borderRadius: '10px'
   },
   columnTitle: {
     textAlign: 'center',
