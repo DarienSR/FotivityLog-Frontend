@@ -34,7 +34,6 @@ export const Project = (props) => {
   
   const [updateTask] = useUpdateProjectTaskMutation()
 
-
   // Functions used in setup
   function AssignTasksToColumns() {
     const { ids } = projectTasks
@@ -98,22 +97,22 @@ export const Project = (props) => {
         backAction = { ToggleEditProject }
         action = { CreateTask }
         actionText = 'Create Task'
-        cards = { [
-          {
-            text: 'Tasks working towards goals',
-            x: 0,
-            y: 0,
-            cardBGColor: '#D326D7',
-            circleBGColor: '#BB24BE',
-          },
-          {
-            text: 'Tasks Completed',
-            x: 1,
-            y: 2,
-            cardBGColor: '#29B2D0',
-            circleBGColor: '#1197B5',
-          },
-        ]}
+        // cards = { [
+        //   {
+        //     text: 'Tasks working towards goals',
+        //     x: 0,
+        //     y: 0,
+        //     cardBGColor: '#D326D7',
+        //     circleBGColor: '#BB24BE',
+        //   },
+        //   {
+        //     text: 'Tasks Completed',
+        //     x: 1,
+        //     y: 2,
+        //     cardBGColor: '#29B2D0',
+        //     circleBGColor: '#1197B5',
+        //   },
+        // ]}
       />
 
 
@@ -140,7 +139,7 @@ export const Project = (props) => {
   </>
 
   const EditProjectRender = <EditProject ToggleEdit={ToggleEditProject} project={projectInfo} /> 
-
+  
   return <>
     { projectEdit ? EditProjectRender : RenderProject }
   </>
@@ -151,12 +150,12 @@ let styles = {
   board: {
     display: 'flex',
     minHeight: '80vh',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f9f8f8',
     color: '#080E01',
     borderRadius: '10px'
   },
   column: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#f9f8f8',
     boxShadow: '1px 2px 5px 1px #00000041',
     margin: "1rem",
     width: "16.666%",

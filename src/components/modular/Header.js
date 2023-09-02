@@ -76,14 +76,13 @@ let styles = {
 
   action: {
     borderRadius: '10px',
-    border: '2px solid #FFFFFF',
+    border: '2px solid #1e2124',
     color: '#463A3A',
     backgroundColor: '#FFFFFF',
-    boxShadow: '#00000052 0px 2px 2px',
-    padding: '0.5rem',
+    padding: '1rem',
     cursor: 'pointer',
     fontWeight: 'bold',
-    fontSize: '1.2rem',
+    fontSize: '1rem',
     alignSelf: 'center',
   },
 

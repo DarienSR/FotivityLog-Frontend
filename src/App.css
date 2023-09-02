@@ -1,6 +1,6 @@
 :root {
   --border-color: "2px solid black";
-  --btn-primary: #4B0E90;
+  --btn-primary: #3f7abf;
   --highlight: #1B0533;
   --text: #080E01;
   --shadow: #00000041;
@@ -8,11 +8,12 @@
 }
 body {
   background-color: #F9F8F8;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Overlock', cursive;
+  letter-spacing: 0.5px;
 }
 
 .fotivity-container {
-  width: 80%;
+  width: 90%;
   margin: 8rem auto;
   color:#463A3A;
 }
@@ -21,7 +22,7 @@ body {
   font-family: 'Tilt Neon', cursive;
   text-decoration: none;
   font-size: 2rem;
-  color: black;
+  color: white;
 }
 /* NEW STYLING */
 
@@ -296,17 +297,27 @@ body {
   font-size: 28px;
 }
 
+
+
 /* antd over writes */
 .ant-picker-calendar-full .ant-radio-button-wrapper:last-child  {
   visibility: hidden !important;
 }
 
+.ant-picker-body, .ant-picker-calendar-header {
+  background-color: #F9F8F8 !important;
+}
+
+
+
+.anticon svg, .ant-timeline-item-head-custom {
+  background-color: #F9F8F8 !important;
+}
 
 
 .body {
   width: '40%';
   margin: '0 auto';
-  background-color: '#FFFFFF';
   border-radius: '10px';
   padding: '1rem';
   box-shadow: '#00000052 0px 2px 2px';

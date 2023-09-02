@@ -22,6 +22,8 @@ export default function Task(props) {
    return  <div style={{backgroundColor: tag.color || null, maxHeight: '1.5rem', minWidth: '4rem', display: 'flex', justifyContent: 'center', fontSize: '0.8rem', marginLeft: '0.35rem', borderRadius: '10px', padding: '0.2rem'}} title={tag.name}><p style={{ marginTop: '0.25rem' }}>{tag.name.toUpperCase()}</p></div>
   })
 
+  console.log('-', tagColors, props.item)
+
   return (
     <>
       <Drag

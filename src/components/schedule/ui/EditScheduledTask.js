@@ -10,7 +10,7 @@ export default function EditScheduledTask(props) {
   const [updateTask] = useUpdateScheduledTaskMutation();
   const [deleteTask] = useDeleteScheduledTaskMutation();
 
-  const { user_id, id } = props.data
+  const { user_id, _id} = props.data
   const [task, setTask] = useState(props.data.task);
   const [desc, setDesc] = useState(props.data.desc)
   const [scheduledFor, setScheduledFor] = useState(props.data.scheduled_for)
@@ -22,7 +22,8 @@ export default function EditScheduledTask(props) {
   const [timeFinish, setTimeFinish] = useState(props.data.time_finish)
 
   async function DeleteTask() {
-    await deleteTask({user_id, id});
+    await deleteTask({user_id, _id});
+    BackClick();
   }
 
   function BackClick() {
@@ -32,12 +33,12 @@ export default function EditScheduledTask(props) {
   async function UpdateTask(e) {
     e.preventDefault();
     
-    const url =  `/schedule/tasks/${user_id}/${id}`
-
+    const url =  `/schedule/tasks/${user_id}/${_id}`
+ 
     const result = await updateTask({
       url,
       user_id,
-      _id: id,
+      _id,
       task,
       desc,
       scheduled_for: scheduledFor,
@@ -46,7 +47,7 @@ export default function EditScheduledTask(props) {
       completed
     })
 
-    props.toggleView();
+    BackClick();
   }
 
   const onTimeStartChange = (time, timeString) => {
@@ -69,15 +70,14 @@ export default function EditScheduledTask(props) {
         backAction = { BackClick }
         action = { DeleteTask }
         actionText = 'Delete Task'
-      />
-
+      /> 
       <form style={ styles.form } onSubmit={ UpdateTask }>
         <span style={ styles.field }>
           <label style={ styles.label } htmlFor="">Task</label>
           <input 
             style={ styles.input }
             type="text"
-            id="task"
+            _id="task"
             value={task}
             onChange={(e) => setTask(e.target.value)}
           />
@@ -88,7 +88,7 @@ export default function EditScheduledTask(props) {
           <input 
             style={ styles.input }
             type="text"
-            id="desc"
+            _id="desc"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
           />
@@ -99,7 +99,7 @@ export default function EditScheduledTask(props) {
           <input 
             style={ styles.input }
             type="date"
-            id="scheduled_for"
+            _id="scheduled_for"
             value={scheduledFor}
             onChange={(e) => setScheduledFor(e.target.value)}
           />
@@ -120,7 +120,7 @@ export default function EditScheduledTask(props) {
           <input 
             style={ styles.input }
             type="checkbox"
-            id="completed"
+            _id="completed"
             checked={completed}
             onClick={onCompletedChange}
           />

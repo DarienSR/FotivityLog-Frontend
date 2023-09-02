@@ -18,11 +18,16 @@ export const tasksApiSlice = apiSlice.injectEndpoints({
       },
       transformResponse: responseData => {
         // set frontend data from backend mongodb data
-        const loadedTasks = responseData.reverse().map(task => {
-          task.id = task._id
-          return task
-        });
-        return tasksAdapter.setAll(initialState, loadedTasks)
+        console.log('returned response', responseData);
+        
+        if(responseData) {
+          const loadedTasks = responseData?.reverse().map(task => {
+            task.id = task._id
+            return task
+          });
+          return tasksAdapter.setAll(initialState, loadedTasks)
+        }
+        
       },
       providesTags: (result, error, arg) => {
         if(result?.ids) {

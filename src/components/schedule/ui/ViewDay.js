@@ -16,7 +16,7 @@ export default function ViewDay() {
   }
 
   function CreateTask() {
-    navigate("/log/schedule/task/create");
+    navigate("/log/schedule/task/create", { state: { date } });
   }
 
 
@@ -33,22 +33,22 @@ export default function ViewDay() {
         backAction = { BackClick }
         action = { CreateTask }
         actionText = 'Create Task'
-        cards = { [
-          {
-            text: 'Tasks working towards goals',
-            x: 0,
-            y: 0,
-            cardBGColor: '#D326D7',
-            circleBGColor: '#BB24BE',
-          },
-          {
-            text: 'Tasks Completed',
-            x: 1,
-            y: 2,
-            cardBGColor: '#29B2D0',
-            circleBGColor: '#1197B5',
-          },
-        ] }
+        // cards = { [
+        //   {
+        //     text: 'Tasks working towards goals',
+        //     x: 0,
+        //     y: 0,
+        //     cardBGColor: '#D326D7',
+        //     circleBGColor: '#BB24BE',
+        //   },
+        //   {
+        //     text: 'Tasks Completed',
+        //     x: 1,
+        //     y: ,
+        //     cardBGColor: '#29B2D0',
+        //     circleBGColor: '#1197B5',
+        //   },
+        // ] }
       /> : null }
 
       <div style={{borderRadius: '10px'}}>

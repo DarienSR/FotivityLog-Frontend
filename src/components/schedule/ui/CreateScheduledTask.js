@@ -9,10 +9,10 @@ export default function CreateScheduledTask(props) {
   const navigate = useNavigate()
   const { user_id } = useAuth()
   const [addTask] = useNewScheduledTaskMutation();
-
+  const { state } = useLocation();
   const [task, setTask] = useState('');
   const [desc, setDesc] = useState('')
-  const [scheduledFor, setScheduledFor] = useState(new Date().toISOString().split('T')[0])
+  const [scheduledFor, setScheduledFor] = useState(state.date || new Date().toISOString().split('T')[0])
   const [notes, setNotes] = useState([])
   const [tags, setTags] = useState([])
   const [links, setLinks] = useState([])
@@ -51,11 +51,16 @@ export default function CreateScheduledTask(props) {
     setCompleted(e.target.checked)
   }
 
+  function BackAction() {
+    navigate(-1)
+  }
+
   return (
     <>
       <Header 
         title = "Add"
         backText = "Back"
+        backAction = { BackAction }
       />
 
       <form style={ styles.form } onSubmit={ AddTask }>
