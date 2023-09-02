@@ -54,14 +54,12 @@ export default function EditTask(props) {
     }) 
 
   const [finishBy, setFinishBy] = useState(props.data.finishBy)
-  const [desc, setDesc] = useState(props.data.desc)
-  const [notes, setNotes] = useState(props.data.notes)
-  const [tags, setTags] = useState(props.data.tags)
-  const [links, setLinks] = useState(props.data.links)
-  const [stage, setStage] = useState(props.data.stage)
+  const [desc, setDesc] = useState(props.data.desc || '')
+  const [notes, setNotes] = useState(props.data.notes || [])
+  const [tags, setTags] = useState(props.data.tags || [])
+  const [links, setLinks] = useState(props.data.links || [])
+  const [stage, setStage] = useState(props.data.stage || 0)
   const [completed, setCompleted] = useState(props.data.completed || false)
-  const [timeStart, setTimeStart] = useState(props.data.timeStart)
-  const [timeFinish, setTimeFinish] = useState(props.data.timeFinish)
   const [updateTask] = useUpdateProjectTaskMutation()
   const [deleteTask] = useDeleteProjectTaskMutation()
 
@@ -73,17 +71,9 @@ export default function EditTask(props) {
   const onUpdateTaskClicked = async (e) => {
     e.preventDefault();
 
-    let x = await updateTask({user_id, task, _id: props.data.id, value, tags, finishBy, desc, notes, timeStart, timeFinish, links, stage, scheduled_for, completed })
+    let x = await updateTask({user_id, task, _id: props.data.id, value, tags, finishBy, desc, notes, links, stage, scheduled_for, completed })
     props.toggleModal();
   }
-
-  const onTimeStartChange = (time, timeString) => {
-    setTimeStart(timeString)
-  };
-
-  const onTimeFinishChange = (time, timeString) => {
-    setTimeFinish(timeString)
-  };
 
   const DeleteTask = async (e) => {
     e.preventDefault()

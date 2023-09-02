@@ -20,11 +20,11 @@ import EditUser from './components/users/ui/EditUser';
 
 // Project and Schedule
 import Schedule from './components/schedule/ui/Schedule';
-import CreateTask from './components/projects/ui/tasks/CreateTask';
+//import CreateTask from './components/projects/ui/tasks/CreateTask';
 import CreateScheduledTask from "./components/schedule/ui/CreateScheduledTask"
-import { Project } from './components/projects/ui/Project';
-import ProjectList from './components/projects/ui/ProjectList';
-import CreateProject from './components/projects/ui/CreateProject';
+// import { Project } from './components/projects/ui/Project';
+// import ProjectList from './components/projects/ui/ProjectList';
+// import CreateProject from './components/projects/ui/CreateProject';
 import EditTask from './components/projects/ui/tasks/EditTask';
 import ViewDay from './components/schedule/ui/ViewDay';
 
@@ -64,12 +64,12 @@ function App() {
                 </Route>
 
 
-                <Route path="projects">
+                {/* <Route path="projects">
                   <Route index element={<ProjectList />} />
                   <Route path=":id" element={<Project />} />
                   <Route path="create" element={<CreateProject />} />
                   <Route path="task/:id/new" element={<CreateTask />} />
-                </Route>
+                </Route> */}
 
                 <Route path="tasks">
                   <Route path="view" element={<EditTask />} />

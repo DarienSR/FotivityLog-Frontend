@@ -14,7 +14,6 @@ const RenderTimeline = (props) => {
   const { user_id } = useAuth()
   let { state, pathname } = useLocation();
 
-
   const [timelineData, setTimelineData] = useState([]);
   const [updateTask] = useUpdateScheduledTaskMutation();
   const [showEditScheduledTask, setShowEditScheduledTask] = useState(false);
@@ -25,16 +24,20 @@ const RenderTimeline = (props) => {
   const { data: tasks, isSuccess } = useGetScheduledTasksQuery(`/schedule/tasks/${user_id}?scheduled_for=${date}`)
   if(!isSuccess) return;
   
-  const { ids } = tasks
+
+
+  const { ids } = tasks || []
   let selectedTasks = []
   // loop through ids and get the tasks
-  for(let i = 0; i < ids.length; i++) {
-    selectedTasks.push({
-      id: tasks.entities[ids[i]].id,
-      type: tasks.entities[ids[i]].tag || [],
-      content: tasks.entities[ids[i]].task,
-      data: tasks.entities[ids[i]]
-    })
+  if(ids) {
+    for(let i = 0; i < ids.length; i++) {
+      selectedTasks.push({
+        id: tasks.entities[ids[i]].id,
+        type: tasks.entities[ids[i]].tag || [],
+        content: tasks.entities[ids[i]].task,
+        data: tasks.entities[ids[i]]
+      })
+    }
   }
 
   function ToggleViewTask(e) {
@@ -69,7 +72,7 @@ const RenderTimeline = (props) => {
   }
 
   function RenderCompleted(task) {
-    return task.data.completed ? <CheckCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem", backgroundColor: '#F9F8F8'}} /> : <CloseCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem",  backgroundColor: '#F9F8F8'}} />
+    return task.data.completed ? <CheckCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem"}} /> : <CloseCircleFilled onClick={() => ToggleTaskCompleted(task.data)} style={{fontSize: "2rem"}} />
   }
 
   async function ToggleTaskCompleted(task) {
@@ -105,7 +108,7 @@ const RenderTimeline = (props) => {
     });
   });
 
-  const assigned = data?.filter((task) => {
+  let assigned = data?.filter((task) => {
     return task.assigned;
   })
 
@@ -123,7 +126,7 @@ const RenderTimeline = (props) => {
 
       <Timeline
         mode="left"
-        items={assigned}
+        items={assigned.reverse()}
       /> 
 
       <div style={{paddingLeft: '3rem'}}>
