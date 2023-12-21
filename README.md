@@ -6,22 +6,26 @@ This project did teach me a lot about developing a large scale application that 
 
 ### Manage Sessions
 
-![image-20231221020749375](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221020749375.png)
+![image-20231221020749375](./photos/img.png)
 
 
 
-![image-20231221020814944](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221020814944.png)
+
+
+
+
+![image-20231221020814944](./photos/image-20231221020814944.png)
 
 
 
 #### Dashboard to showcase insights
 
-![image-20231221020841010](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221020841010.png)
+![image-20231221020841010](./photos/image-20231221020841010.png)
 
-![image-20231221020925022](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221020925022.png)
+![image-20231221020925022](./photos/image-20231221020925022.png)
 
 #### Calendar functionality (did not finish developing)
 
-![image-20231221021158083](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221021158083.png)
+![image-20231221021158083](./photos/image-20231221021158083.png)
 
-![image-20231221021140529](C:\Users\DLaptop\AppData\Roaming\Typora\typora-user-images\image-20231221021140529.png)
+![image-20231221021140529](./photos/image-20231221021140529.png)
