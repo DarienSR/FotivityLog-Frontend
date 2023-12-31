@@ -4,20 +4,6 @@
 
 This project did teach me a lot about developing a large scale application that incorporates many different overlapping functionalities. 
 
-### Manage Sessions
-
-![image-20231221020749375](./photos/img.png)
-
-
-
-
-
-
-
-![image-20231221020814944](./photos/image-20231221020814944.png)
-
-
-
 #### Dashboard to showcase insights
 
 ![image-20231221020841010](./photos/image-20231221020841010.png)
@@ -29,3 +15,13 @@ This project did teach me a lot about developing a large scale application that 
 ![image-20231221021158083](./photos/image-20231221021158083.png)
 
 ![image-20231221021140529](./photos/image-20231221021140529.png)
+
+### Manage Sessions
+
+![image-20231221020749375](./photos/img.png)
+
+
+![image-20231221020814944](./photos/image-20231221020814944.png)
+
+
+
