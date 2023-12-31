@@ -6,8 +6,6 @@ This project did teach me a lot about developing a large scale application that 
 
 #### Dashboard to showcase insights
 
-![image-20231221020841010](./photos/image-20231221020841010.png)
-
 ![image-20231221020925022](./photos/image-20231221020925022.png)
 
 #### Calendar functionality (did not finish developing)
